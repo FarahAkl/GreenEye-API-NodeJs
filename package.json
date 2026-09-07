@@ -1,0 +1,38 @@
+{
+  "name": "greeneye-api-nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/FarahAkl/GreenEye-API-NodeJs#readme",
+  "bugs": {
+    "url": "https://github.com/FarahAkl/GreenEye-API-NodeJs/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FarahAkl/GreenEye-API-NodeJs.git"
+  },
+  "license": "ISC",
+  "author": "Farah AKl",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --exec tsx src/index.ts",
+    "prod": "node src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.9.5",
+    "multer": "^2.3.0",
+    "zod": "^4.5.4"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.4.1",
+    "nodemon": "^3.1.14",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
+  }
+}
