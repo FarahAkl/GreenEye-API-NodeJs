@@ -34,34 +34,34 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 
 | Method | Endpoint | Description |
 |---|---|---|
-| `POST` | `/api/Authentication/register` | Register a new account |
-| `POST` | `/api/Authentication/verify-otp` | Verify an OTP |
-| `POST` | `/api/Authentication/login` | Login |
-| `POST` | `/api/Authentication/resend-otp` | Resend OTP |
-| `POST` | `/api/Authentication/forget-password` | Request password reset |
-| `POST` | `/api/Authentication/reset-password` | Reset password |
-| `POST` | `/api/Authentication/refresh-token` | Refresh authentication token |
-| `POST` | `/api/Authentication/revoke-token` | Revoke authentication token |
+| `POST` | `/api/auth/register` | Register a new account |
+| `POST` | `/api/auth/verify-otp` | Verify an OTP |
+| `POST` | `/api/auth/login` | Login |
+| `POST` | `/api/auth/resend-otp` | Resend OTP |
+| `POST` | `/api/auth/forget-password` | Request password reset |
+| `POST` | `/api/auth/reset-password` | Reset password |
+| `POST` | `/api/auth/refresh-token` | Refresh authentication token |
+| `POST` | `/api/auth/logout` | Revoke authentication token |
 
 ### Cart
 
 | Method | Endpoint | Description |
 |---|---|---|
-| `GET` | `/api/marketplace/Cart` | Get current cart |
-| `POST` | `/api/marketplace/Cart/add-items` | Add items to cart |
-| `PUT` | `/api/marketplace/Cart/items/{cartItemId}` | Update a cart item |
-| `DELETE` | `/api/marketplace/Cart/items/{cartItemId}` | Remove a cart item |
-| `DELETE` | `/api/marketplace/Cart/clear` | Clear cart |
+| `GET` | `/api/marketplace/cart` | Get current cart |
+| `POST` | `/api/marketplace/cart/add-items` | Add items to cart |
+| `PUT` | `/api/marketplace/cart/items/{cartItemId}` | Update a cart item |
+| `DELETE` | `/api/marketplace/cart/items/{cartItemId}` | Remove a cart item |
+| `DELETE` | `/api/marketplace/cart` | Clear cart |
 
 ### Category
 
 | Method | Endpoint | Description |
 |---|---|---|
-| `GET` | `/api/marketplace/Category` | Get all categories |
-| `POST` | `/api/marketplace/Category` | Create a category |
-| `GET` | `/api/marketplace/Category/{id}` | Get a category by ID |
-| `PUT` | `/api/marketplace/Category/{id}` | Update a category |
-| `DELETE` | `/api/marketplace/Category/{id}` | Delete a category |
+| `GET` | `/api/marketplace/category` | Get all categories |
+| `POST` | `/api/marketplace/category` | Create a category |
+| `GET` | `/api/marketplace/category/:categoryId` | Get a category by ID |
+| `PUT` | `/api/marketplace/category/:categoryId` | Update a category |
+| `DELETE` | `/api/marketplace/category/:categoryId` | Delete a category |
 
 ### Classification
 
@@ -119,13 +119,12 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 
 | Method | Endpoint | Description |
 |---|---|---|
-| `POST` | `/api/marketplace/Order/create` | Create an order |
-| `GET` | `/api/marketplace/Order/user/{userId}/orders` | Get orders for a specific user |
-| `GET` | `/api/marketplace/Order/user/orders` | Get current user's orders |
-| `GET` | `/api/marketplace/Order/{id}` | Get an order by ID |
-| `POST` | `/api/marketplace/Order/{id}/cancel` | Cancel an order |
-| `POST` | `/api/marketplace/Order/{id}/refund-order` | Refund an order |
-| `POST` | `/api/marketplace/Order/stripe-webhook` | Handle Stripe webhook |
+| `POST` | `/api/marketplace/order/create` | Create an order |
+| `GET` | `/api/marketplace/order/user/orders` | Get current user's orders |
+| `GET` | `/api/marketplace/order/:orderId` | Get an order by ID |
+| `POST` | `/api/marketplace/order/:orderId/cancel` | Cancel an order |
+| `POST` | `/api/marketplace/order/:orderId/refund-order` | Refund an order |
+| `POST` | `/api/marketplace/order/stripe-webhook` | Handle Stripe webhook |
 
 ### Post
 
@@ -150,20 +149,16 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 
 | Method | Endpoint | Description |
 |---|---|---|
-| `GET` | `/api/marketplace/Product/all-products` | Get all products |
-| `GET` | `/api/marketplace/Product/product/{id}` | Get a product by ID |
-| `GET` | `/api/marketplace/Product/category/{categoryId}` | Get products by category |
-| `GET` | `/api/marketplace/Product/search` | Search products |
-| `GET` | `/api/marketplace/Product/pricing-order` | Get products ordered by price |
+| `GET` | `/api/marketplace/product` | Get all products |
+| `GET` | `/api/marketplace/product/{id}` | Get a product by ID |
 
 ### Profile
 
 | Method | Endpoint | Description |
 |---|---|---|
-| `GET` | `/api/Profile/{userId}` | Get a user profile |
-| `PUT` | `/api/Profile/update` | Update current user's profile |
-| `GET` | `/api/Profile/coins` | Get user's coins |
-| `DELETE` | `/api/Profile/delete-account` | Delete current user's account |
+| `GET` | `/api/profile` | Get a user profile |
+| `PATCH` | `/api/profile` | Update current user's profile |
+| `DELETE` | `/api/profile` | Delete current user's account |
 
 ### Review
 
