@@ -14,18 +14,18 @@ const authRouter = express.Router();
 
 authRouter.route("/register").post(register);
 
-authRouter.route("/login").post(login);
+// authRouter.route("/login").post(login);
 
-authRouter.route("/logout").post(logout);
+// authRouter.route("/logout").post(logout);
 
-authRouter.route("/verify-otp").post(verifyOtp);
+// authRouter.route("/verify-otp").post(verifyOtp);
 
-authRouter.route("/resend-otp").post(resendOtp);
+// authRouter.route("/resend-otp").post(resendOtp);
 
-authRouter.route("/forget-password").post(forgetPassword);
+// authRouter.route("/forget-password").post(forgetPassword);
 
-authRouter.route("/reset-password").post(resetPassword);
+// authRouter.route("/reset-password").post(resetPassword);
 
-authRouter.route("/refresh-token").post(refreshToken);
+// authRouter.route("/refresh-token").post(refreshToken);
 
 export { authRouter };

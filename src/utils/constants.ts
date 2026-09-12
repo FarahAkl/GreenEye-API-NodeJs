@@ -1,9 +1,3 @@
-const statusText = {
-  SUCCESS: "success",
-  FAIL: "fail",
-  ERROR: "error",
-};
-
 const userRoles = {
   ADMIN: "admin",
   USER: "user",
@@ -17,4 +11,4 @@ export const registerRoles = [
   userRoles.SUPPLIER,
 ];
 
-export { statusText, userRoles };
+export { userRoles };

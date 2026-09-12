@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import { userRoles } from "../utils/constants.js";
+import { registerRoles } from "../utils/constants.js";
 
-const userSchema = new mongoose.Schema(
+const pendingRegistrationSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -29,17 +29,19 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: [
-        userRoles.ADMIN,
-        userRoles.USER,
-        userRoles.EXPERT,
-        userRoles.SUPPLIER,
-      ],
+      enum: registerRoles,
       required: true,
     },
-    status: {
+    otpHash: {
       type: String,
-      enum: ["pending", "approved", "rejected"],
+      required: true,
+    },
+    otpExpiresAt: {
+      type: Date,
+      required: true,
+    },
+    registerExpiresAt: {
+      type: Date,
       required: true,
     },
   },
@@ -48,4 +50,9 @@ const userSchema = new mongoose.Schema(
   },
 );
 
-export const userModel = mongoose.model("User", userSchema);
+pendingRegistrationSchema.index({ registerExpiresAt: 1 }, { expireAfterSeconds: 0 });
+
+export const pendingRegistration = mongoose.model(
+  "pendingRegistration",
+  pendingRegistrationSchema,
+);

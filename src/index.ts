@@ -8,11 +8,12 @@ import cors from "cors";
 import dotenv from "dotenv";
 import expressRateLimit from "express-rate-limit";
 import { authRouter } from "./routes/auth.route.js";
-import { cartRouter } from "./routes/cart.route.js";
-import { categoryRouter } from "./routes/category.route.js";
-import { orderRouter } from "./routes/order.route.js";
-import { productRouter } from "./routes/product.route.js";
-import { statusText } from "./utils/constants.js";
+import { success } from "zod";
+import { errorResponse } from "./utils/helper.js";
+// import { cartRouter } from "./routes/cart.route.js";
+// import { categoryRouter } from "./routes/category.route.js";
+// import { orderRouter } from "./routes/order.route.js";
+// import { productRouter } from "./routes/product.route.js";
 
 dotenv.config();
 
@@ -34,19 +35,14 @@ app.use(
 );
 
 app.use("/api/auth", authRouter);
-app.use("/api/marketplace/cart", cartRouter);
-app.use("/api/marketplace/category", categoryRouter);
-app.use("/api/marketplace/order", orderRouter);
-app.use("/api/marketplace/product", productRouter);
-app.use("/api/profile");
+// app.use("/api/marketplace/cart", cartRouter);
+// app.use("/api/marketplace/category", categoryRouter);
+// app.use("/api/marketplace/order", orderRouter);
+// app.use("/api/marketplace/product", productRouter);
+// app.use("/api/profile");
 
-app.all("/*splat", (req, res, next) => {
-  res
-    .status(404)
-    .json({
-      status: statusText.ERROR,
-      message: "This resource is not available",
-    });
+app.all("/{*splat}", (req, res, next) => {
+  res.status(404).json(errorResponse("This resource is not available", null));
 });
 
 app.use(
@@ -56,12 +52,9 @@ app.use(
     res: Response,
     next: NextFunction,
   ) => {
-    res.status(error.statusCode || 500).json({
-      status: error.statusText || statusText.ERROR,
-      message: error.message || "Something is wrong!",
-      code: error.statusCode || 500,
-      data: null,
-    });
+    res
+      .status(error.statusCode || 500)
+      .json(errorResponse(error.message || "Something is wrong!", null));
   },
 );
 
