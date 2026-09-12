@@ -33,11 +33,10 @@ export const registerService = async (data: registerReqT) => {
     registerExpiresAt,
   });
 
-  const info = await transporter.sendMail({
+  await transporter.sendMail({
     from: `"GreenEye Team" <${process.env.GOOGLE_USER_EMAIL}>`, // sender address
-    to: `${email}`, // list of recipients
+    to: email, // list of recipients
     subject: "OTP Verification", // subject line
-    //   text: "Hello world?", // plain text body
     html: `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; color: #333;">
       <h2 style="margin-bottom: 20px;">Verify Your Email</h2>
@@ -81,6 +80,6 @@ export const registerService = async (data: registerReqT) => {
 
   return {
     message: "Registration successful. OTP sent to your email.",
-    data: { email, name, password, address, phoneNumber, role, avatar },
+    data: { email, name, address, phoneNumber, role, avatar },
   };
 };
