@@ -1,16 +1,17 @@
 import bcrypt from "bcryptjs";
 import crypto from "node:crypto";
 import { userModel as User } from "../models/user.model.js";
-import type { registerReqT } from "../schemas/auth.schema.js";
+import type { registerReqT, verifyOtpT } from "../schemas/auth.schema.js";
 import { pendingRegistration } from "../models/pendingRegistration.model.js";
 import { transporter } from "../config/mail.js";
+import { AppError } from "../utils/appError.js";
 
 export const registerService = async (data: registerReqT) => {
   const { email, name, password, address, phoneNumber, role, avatar } = data;
   const existUser = await User.findOne({ email });
   const pendingUser = await pendingRegistration.findOne({ email });
 
-  if (existUser || pendingUser) throw new Error("User already exists!");
+  if (existUser || pendingUser) throw new AppError("User already exists!", 409);
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -82,4 +83,39 @@ export const registerService = async (data: registerReqT) => {
     message: "Registration successful. OTP sent to your email.",
     data: { email, name, address, phoneNumber, role, avatar },
   };
+};
+
+export const verifyOtpService = async (data: verifyOtpT) => {
+  const { email, type, otp } = data;
+
+  if (type === "registration") {
+    const pendingUser = await pendingRegistration.findOne({ email });
+
+    if (!pendingUser) throw new AppError("User not found", 404);
+
+    if (new Date() > pendingUser.otpExpiresAt) {
+      throw new AppError("OTP expired", 400);
+    }
+
+    const validOTP = await bcrypt.compare(otp, pendingUser.otpHash);
+
+    if (!validOTP) throw new AppError("Not valid OTP", 400);
+
+    await User.create({
+      name: pendingUser.name,
+      email: pendingUser.email,
+      password: pendingUser.password,
+      address: pendingUser.address,
+      phoneNumber: pendingUser.phoneNumber,
+      role: pendingUser.role,
+      ...(pendingUser.avatar && { avatar: pendingUser.avatar }),
+      status: pendingUser.role === "user" ? "approved" : "pending",
+    });
+
+    await pendingRegistration.deleteOne({ _id: pendingUser._id });
+
+    return { message: "Email is successfully verified" };
+  }
+
+  throw new AppError("Invalid verification type", 400);
 };

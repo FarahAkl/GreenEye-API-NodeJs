@@ -1,15 +1,11 @@
-import express, {
-  type NextFunction,
-  type Request,
-  type Response,
-} from "express";
+import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 import expressRateLimit from "express-rate-limit";
 import { authRouter } from "./routes/auth.route.js";
-import { success } from "zod";
 import { errorResponse } from "./utils/helper.js";
+import { errorHandler } from "./middleware/errorHandler.js";
 // import { cartRouter } from "./routes/cart.route.js";
 // import { categoryRouter } from "./routes/category.route.js";
 // import { orderRouter } from "./routes/order.route.js";
@@ -41,22 +37,11 @@ app.use("/api/auth", authRouter);
 // app.use("/api/marketplace/product", productRouter);
 // app.use("/api/profile");
 
-app.all("/{*splat}", (req, res, next) => {
+app.all("/{*splat}", (req, res) => {
   res.status(404).json(errorResponse("This resource is not available", null));
 });
 
-app.use(
-  (
-    error: Error & { statusCode?: number; statusText?: string },
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) => {
-    res
-      .status(error.statusCode || 500)
-      .json(errorResponse(error.message || "Something is wrong!", null));
-  },
-);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}✅`);

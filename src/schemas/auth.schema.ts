@@ -23,4 +23,11 @@ export const registerReqSchema = z
     path: ["confirm_password"],
   });
 
+export const verifyOtpReqSchema = z.object({
+  email: z.email("Not valid email"),
+  otp: z.string().length(6),
+  type: z.enum(["registration", "forget_password"]),
+});
+
 export type registerReqT = z.infer<typeof registerReqSchema>;
+export type verifyOtpT = z.infer<typeof verifyOtpReqSchema>;

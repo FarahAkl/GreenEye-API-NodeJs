@@ -9,16 +9,17 @@ import {
   resetPassword,
   refreshToken,
 } from "../controllers/auth.controller.js";
+import { asyncHandler } from "../middleware/asyncHandler.js";
 
 const authRouter = express.Router();
 
-authRouter.route("/register").post(register);
+authRouter.route("/register").post(asyncHandler(register));
+
+authRouter.route("/verify-otp").post(asyncHandler(verifyOtp));
 
 // authRouter.route("/login").post(login);
 
 // authRouter.route("/logout").post(logout);
-
-// authRouter.route("/verify-otp").post(verifyOtp);
 
 // authRouter.route("/resend-otp").post(resendOtp);
 
