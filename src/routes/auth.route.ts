@@ -21,7 +21,7 @@ authRouter.route("/login").post(asyncHandler(login));
 
 authRouter.route("/refresh-token").post(asyncHandler(refreshToken));
 
-// authRouter.route("/logout").post(logout);
+authRouter.route("/logout").post(logout);
 
 // authRouter.route("/resend-otp").post(resendOtp);
 
