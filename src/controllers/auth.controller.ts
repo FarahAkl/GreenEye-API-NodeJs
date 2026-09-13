@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import {
+  forgetPasswordReqSchema,
   loginReqSchema,
   registerReqSchema,
   resendOtpReqSchema,
@@ -7,6 +8,7 @@ import {
 } from "../schemas/auth.schema.js";
 import { errorResponse, successResponse } from "../utils/helper.js";
 import {
+  forgetPasswordService,
   loginService,
   refreshTokenService,
   registerService,
@@ -147,12 +149,24 @@ const resendOtp = async (req: Request, res: Response) => {
 };
 
 const forgetPassword = async (req: Request, res: Response) => {
-  try {
-  } catch (error) {
-    return res.status(500).json({
-      message: error instanceof Error ? error.message : "Internal server error",
-    });
+  const validatedReq = forgetPasswordReqSchema.safeParse(req.body);
+  if (!validatedReq.success) {
+    return res.status(400).json(
+      errorResponse(
+        "Validation failed",
+        validatedReq.error.issues.map((issue) => ({
+          field: issue.path[0],
+          message: issue.message,
+        })),
+      ),
+    );
   }
+
+  const validatedData = validatedReq.data;
+
+  const result = await forgetPasswordService(validatedData);
+
+  return res.status(200).json(successResponse(result.message));
 };
 
 const resetPassword = async (req: Request, res: Response) => {

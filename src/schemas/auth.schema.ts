@@ -42,7 +42,12 @@ export const resendOtpReqSchema = z.object({
   email: z.email("Not valid email"),
 });
 
+export const forgetPasswordReqSchema = z.object({
+  email: z.email("Not valid email"),
+});
+
 export type registerReqT = z.infer<typeof registerReqSchema>;
 export type verifyOtpT = z.infer<typeof verifyOtpReqSchema>;
 export type loginT = z.infer<typeof loginReqSchema>;
-export type resendOtpT = z.infer<typeof resendOtpReqSchema>
+export type resendOtpT = z.infer<typeof resendOtpReqSchema>;
+export type forgetPasswordT = z.infer<typeof forgetPasswordReqSchema>;

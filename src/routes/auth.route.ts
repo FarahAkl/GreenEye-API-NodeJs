@@ -25,7 +25,7 @@ authRouter.route("/logout").post(logout);
 
 authRouter.route("/resend-otp").post(asyncHandler(resendOtp));
 
-// authRouter.route("/forget-password").post(forgetPassword);
+authRouter.route("/forget-password").post(asyncHandler(forgetPassword));
 
 // authRouter.route("/reset-password").post(resetPassword);
 
