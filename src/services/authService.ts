@@ -12,7 +12,6 @@ import { pendingRegistration } from "../models/pendingRegistration.model.js";
 import { transporter } from "../config/mail.js";
 import { AppError } from "../utils/appError.js";
 import jwt from "jsonwebtoken";
-import { date } from "zod";
 import { passwordReset } from "../models/passwordReset.js";
 
 export const registerService = async (data: registerReqT) => {
@@ -126,7 +125,31 @@ export const verifyOtpService = async (data: verifyOtpT) => {
     return { message: "Email is successfully verified" };
   }
 
-  throw new AppError("Invalid verification type", 400);
+  if (type === "forget_password") {
+    const resetRequest = await passwordReset.findOne({ email });
+
+    if (!resetRequest) throw new AppError("User not found", 404);
+
+    if (new Date() > resetRequest.otpExpiresAt) {
+      throw new AppError("OTP expired", 400);
+    }
+
+    const validOTP = await bcrypt.compare(otp, resetRequest.otpHash);
+    if (!validOTP) throw new AppError("Not valid OTP", 400);
+
+    const jwtResetSecret = process.env.JWT_RESET_SECRET_KEY;
+    if (!jwtResetSecret) {
+      throw new AppError("JWT secret is not configured", 500);
+    }
+
+    const resetToken = jwt.sign({ email: resetRequest.email }, jwtResetSecret, {
+      expiresIn: "15m",
+    });
+
+    return { message: "Email is successfully verified", resetToken };
+  }
+
+  throw new AppError("Type not valid", 400);
 };
 
 export const loginService = async (data: loginT) => {

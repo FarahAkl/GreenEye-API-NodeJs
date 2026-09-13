@@ -55,6 +55,15 @@ const verifyOtp = async (req: Request, res: Response) => {
 
   const validatedData = validatedReq.data;
   const result = await verifyOtpService(validatedData);
+
+  if (validatedData.type === "forget_password")
+    res.cookie("resetToken", result.resetToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 15 * 60 * 1000,
+    });
+
   return res.status(200).json(successResponse(result.message));
 };
 
