@@ -7,15 +7,13 @@ import {
   verifyOtpReqSchema,
 } from "../schemas/auth.schema.js";
 import { errorResponse, successResponse } from "../utils/helper.js";
-import {
-  forgetPasswordService,
-  loginService,
-  refreshTokenService,
-  registerService,
-  resendOtpService,
-  verifyOtpService,
-} from "../services/authService.js";
 import { AppError } from "../utils/appError.js";
+import { loginService } from "../services/auth/loginService.js";
+import { registerService } from "../services/auth/registerService.js";
+import { verifyOtpService } from "../services/auth/verifyOtpService.js";
+import { resendOtpService } from "../services/auth/resendOtpService.js";
+import { refreshTokenService } from "../services/auth/refreshTokenService.js";
+import { forgetPasswordService } from "../services/auth/forgetPasswordService.js";
 
 const register = async (req: Request, res: Response) => {
   const validatedReq = registerReqSchema.safeParse(req.body);

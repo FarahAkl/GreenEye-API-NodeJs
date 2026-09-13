@@ -20,6 +20,15 @@ const passwordResetSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
+    lastOtpSentAt: {
+      type: Date,
+      required: true,
+    },
+    otpAttempts: {
+      type: Number,
+      default: 0,
+      required: true,
+    },
   },
   {
     timestamps: true,
