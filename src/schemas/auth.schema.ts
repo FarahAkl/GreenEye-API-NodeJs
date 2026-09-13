@@ -37,6 +37,12 @@ export const loginReqSchema = z.object({
     .max(256, "The maximum number of password characters is 256"),
 });
 
+export const resendOtpReqSchema = z.object({
+  type: z.enum(["registration", "forget_password"]),
+  email: z.email("Not valid email"),
+});
+
 export type registerReqT = z.infer<typeof registerReqSchema>;
 export type verifyOtpT = z.infer<typeof verifyOtpReqSchema>;
 export type loginT = z.infer<typeof loginReqSchema>;
+export type resendOtpT = z.infer<typeof resendOtpReqSchema>

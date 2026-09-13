@@ -23,7 +23,7 @@ authRouter.route("/refresh-token").post(asyncHandler(refreshToken));
 
 authRouter.route("/logout").post(logout);
 
-// authRouter.route("/resend-otp").post(resendOtp);
+authRouter.route("/resend-otp").post(asyncHandler(resendOtp));
 
 // authRouter.route("/forget-password").post(forgetPassword);
 
