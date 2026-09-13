@@ -17,7 +17,7 @@ authRouter.route("/register").post(asyncHandler(register));
 
 authRouter.route("/verify-otp").post(asyncHandler(verifyOtp));
 
-// authRouter.route("/login").post(login);
+authRouter.route("/login").post(asyncHandler(login));
 
 // authRouter.route("/logout").post(logout);
 

@@ -29,5 +29,14 @@ export const verifyOtpReqSchema = z.object({
   type: z.enum(["registration", "forget_password"]),
 });
 
+export const loginReqSchema = z.object({
+  email: z.email("Not valid email"),
+  password: z
+    .string()
+    .min(8, "The minimum number of password characters is 8")
+    .max(256, "The maximum number of password characters is 256"),
+});
+
 export type registerReqT = z.infer<typeof registerReqSchema>;
 export type verifyOtpT = z.infer<typeof verifyOtpReqSchema>;
+export type loginT = z.infer<typeof loginReqSchema>;
