@@ -19,6 +19,8 @@ authRouter.route("/verify-otp").post(asyncHandler(verifyOtp));
 
 authRouter.route("/login").post(asyncHandler(login));
 
+authRouter.route("/refresh-token").post(asyncHandler(refreshToken));
+
 // authRouter.route("/logout").post(logout);
 
 // authRouter.route("/resend-otp").post(resendOtp);
@@ -26,7 +28,5 @@ authRouter.route("/login").post(asyncHandler(login));
 // authRouter.route("/forget-password").post(forgetPassword);
 
 // authRouter.route("/reset-password").post(resetPassword);
-
-// authRouter.route("/refresh-token").post(refreshToken);
 
 export { authRouter };
