@@ -6,6 +6,9 @@ import expressRateLimit from "express-rate-limit";
 import { authRouter } from "./routes/auth.route.js";
 import { errorResponse } from "./utils/helper.js";
 import { errorHandler } from "./middleware/errorHandler.js";
+import cookieParser from "cookie-parser";
+import { authorizeRoles } from "./middleware/authorizeRoles.js";
+import { verifyToken } from "./middleware/verifyToken.js";
 // import { cartRouter } from "./routes/cart.route.js";
 // import { categoryRouter } from "./routes/category.route.js";
 // import { orderRouter } from "./routes/order.route.js";
@@ -21,6 +24,7 @@ mongoose.connect(DB_URL).then(() => console.log("Connected to MongoDB! ✅"));
 
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 app.use(
   expressRateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
