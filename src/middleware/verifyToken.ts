@@ -9,7 +9,7 @@ export const verifyToken = (
   next: NextFunction,
 ) => {
   const accessToken = req.cookies.accessToken;
-  if (!accessToken) throw new AppError("Not authorized", 401);
+  if (!accessToken) throw new AppError("Not authenticated", 401);
 
   const jwtAccessSecret = process.env.JWT_ACCESS_SECRET_KEY;
   if (!jwtAccessSecret) throw new AppError("JWT secret is not configured", 500);

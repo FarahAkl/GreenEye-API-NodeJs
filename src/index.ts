@@ -7,8 +7,7 @@ import { authRouter } from "./routes/auth.route.js";
 import { errorResponse } from "./utils/helper.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import cookieParser from "cookie-parser";
-import { authorizeRoles } from "./middleware/authorizeRoles.js";
-import { verifyToken } from "./middleware/verifyToken.js";
+import { profileRouter } from "./routes/profile.route.js";
 // import { cartRouter } from "./routes/cart.route.js";
 // import { categoryRouter } from "./routes/category.route.js";
 // import { orderRouter } from "./routes/order.route.js";
@@ -35,11 +34,11 @@ app.use(
 );
 
 app.use("/api/auth", authRouter);
+app.use("/api/profile", profileRouter);
 // app.use("/api/marketplace/cart", cartRouter);
 // app.use("/api/marketplace/category", categoryRouter);
 // app.use("/api/marketplace/order", orderRouter);
 // app.use("/api/marketplace/product", productRouter);
-// app.use("/api/profile");
 
 app.all("/{*splat}", (req, res) => {
   res.status(404).json(errorResponse("This resource is not available", null));
