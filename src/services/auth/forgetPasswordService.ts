@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import crypto from "node:crypto";
 import { AppError } from "../../utils/appError.js";
 import { transporter } from "../../config/mail.js";
-import { passwordReset } from "../../models/passwordReset.js";
+import { passwordReset } from "../../models/passwordReset.model.js";
 import { userModel as User } from "../../models/user.model.js";
 import type { forgetPasswordT } from "../../schemas/auth.schema.js";
 

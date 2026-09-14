@@ -46,8 +46,43 @@ export const forgetPasswordReqSchema = z.object({
   email: z.email("Not valid email"),
 });
 
+export const resetPasswordReqSchema = z
+  .object({
+    password: z
+      .string()
+      .min(8, "The minimum number of password characters is 8")
+      .max(256, "The maximum number of password characters is 256"),
+    confirm_password: z
+      .string()
+      .min(8, "The minimum number of password characters is 8")
+      .max(256, "The maximum number of password characters is 256"),
+  })
+  .refine((data) => data.password === data.confirm_password, {
+    message: "Passwords do not match",
+    path: ["confirm_password"],
+  });
+
+export const changePasswordReqSchema = z
+  .object({
+    old_password: z.string().nonempty("This field is required"),
+    password: z
+      .string()
+      .min(8, "The minimum number of password characters is 8")
+      .max(256, "The maximum number of password characters is 256"),
+    confirm_password: z
+      .string()
+      .min(8, "The minimum number of password characters is 8")
+      .max(256, "The maximum number of password characters is 256"),
+  })
+  .refine((data) => data.password === data.confirm_password, {
+    message: "Passwords do not match",
+    path: ["confirm_password"],
+  });
+
 export type registerReqT = z.infer<typeof registerReqSchema>;
 export type verifyOtpT = z.infer<typeof verifyOtpReqSchema>;
 export type loginT = z.infer<typeof loginReqSchema>;
 export type resendOtpT = z.infer<typeof resendOtpReqSchema>;
 export type forgetPasswordT = z.infer<typeof forgetPasswordReqSchema>;
+export type resetPasswordT = z.infer<typeof resetPasswordReqSchema>;
+export type changePasswordT = z.infer<typeof changePasswordReqSchema>;

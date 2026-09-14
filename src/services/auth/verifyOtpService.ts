@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { AppError } from "../../utils/appError.js";
-import { passwordReset } from "../../models/passwordReset.js";
+import { passwordReset } from "../../models/passwordReset.model.js";
 import { pendingRegistration } from "../../models/pendingRegistration.model.js";
 import { userModel as User } from "../../models/user.model.js";
 import type { verifyOtpT } from "../../schemas/auth.schema.js";

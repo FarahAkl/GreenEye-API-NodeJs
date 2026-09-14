@@ -8,8 +8,10 @@ import {
   forgetPassword,
   resetPassword,
   refreshToken,
+  changePassword,
 } from "../controllers/auth.controller.js";
 import { asyncHandler } from "../middleware/asyncHandler.js";
+import { verifyToken } from "../middleware/verifyToken.js";
 
 const authRouter = express.Router();
 
@@ -27,6 +29,10 @@ authRouter.route("/resend-otp").post(asyncHandler(resendOtp));
 
 authRouter.route("/forget-password").post(asyncHandler(forgetPassword));
 
-// authRouter.route("/reset-password").post(resetPassword);
+authRouter.route("/reset-password").post(asyncHandler(resetPassword));
+
+authRouter
+  .route("/change-password")
+  .post(verifyToken, asyncHandler(changePassword));
 
 export { authRouter };
