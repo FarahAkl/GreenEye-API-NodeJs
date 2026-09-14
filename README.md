@@ -44,6 +44,21 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 | `POST` | `/api/auth/refresh-token` | Refresh authentication token |
 | `POST` | `/api/auth/logout` | Revoke authentication token |
 
+### AI Models
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/ai/classification` | Get classification information/results |
+| `POST` | `/api/ai/forecast` | Get forecast |
+| `GET` | `/api/ai/forecast/history` | Get user's forecasts |
+| `POST` | `/api/ai/crop-disease` | Create/submit a crop disease detection |
+| `GET` | `/api/ai/crop-disease/history` | Get crop disease detection history |
+| `GET` | `/api/ai/crop-disease/history/:id` | Get a disease history record |
+| `DELETE` | `/api/ai/crop-disease/history/:id` | Delete a disease history record |
+| `POST` | `/api/ai/crop-growth-simulation` | Run crop growth simulation |
+| `POST` | `/api/ai/crop-recommendation` | Get crop recommendation |
+| `GET` | `/api/ai/crop-recommendation/history` | Get crop recommendation history |
+
 ### Cart
 
 | Method | Endpoint | Description |
@@ -64,12 +79,6 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 | `PUT` | `/api/marketplace/category/:categoryId` | Update a category |
 | `DELETE` | `/api/marketplace/category/:categoryId` | Delete a category |
 
-### Classification
-
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/Classification` | Get classification information/results |
-
 ### Comment
 
 | Method | Endpoint | Description |
@@ -77,35 +86,7 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 | `POST` | `/api/Comment/add` | Add a comment |
 | `GET` | `/api/Comment/post/{postId}` | Get comments for a post |
 | `PUT` | `/api/Comment` | Update a comment |
-| `DELETE` | `/api/Comment/{commentId}` | Delete a comment |
-
-### Crop Disease
-
-| Method | Endpoint | Description |
-|---|---|---|
-| `POST` | `/api/CropDisease` | Create/submit a crop disease detection |
-| `GET` | `/api/CropDisease/history` | Get crop disease detection history |
-| `DELETE` | `/api/CropDisease/delete-history/{id}` | Delete a disease history record |
-
-### Crop Growth Simulation
-
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/CropGrowthSimulation/simulate` | Run crop growth simulation |
-
-### Crop Recommendation
-
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/CropRecommendation/recommend` | Get crop recommendation |
-| `GET` | `/api/CropRecommendation/history` | Get crop recommendation history |
-
-### Forecasting
-
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/Forecasting/forecast` | Get forecast |
-| `GET` | `/api/Forecasting/my-forecasts` | Get user's forecasts |
+| `DELETE` | `/api/Comment/{commentId}` | Delete a comment |Description |
 
 ### Notifications
 
@@ -241,11 +222,15 @@ Register → Verify OTP → Login → Access protected endpoints
 - TypeScript
 - MongoDB
 - Mongoose
+- Bcryptjs
+- Nodemailer
 - Zod
 - JWT
 - Multer
+- Cloudinary
 - CORS
 - dotenv
+- Axios
 - Stripe
 - Shippo
 
@@ -265,7 +250,7 @@ npm run build
 Run the production build:
 
 ```bash
-npm start
+npm run prod
 ```
 
 ## Project Goal
