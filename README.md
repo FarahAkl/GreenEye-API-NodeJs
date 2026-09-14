@@ -35,11 +35,12 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 | Method | Endpoint | Description |
 |---|---|---|
 | `POST` | `/api/auth/register` | Register a new account |
-| `POST` | `/api/auth/verify-otp` | Verify an OTP |
 | `POST` | `/api/auth/login` | Login |
+| `POST` | `/api/auth/verify-otp` | Verify an OTP |
 | `POST` | `/api/auth/resend-otp` | Resend OTP |
 | `POST` | `/api/auth/forget-password` | Request password reset |
 | `POST` | `/api/auth/reset-password` | Reset password |
+| `POST` | `/api/auth/change-password` | Change password |
 | `POST` | `/api/auth/refresh-token` | Refresh authentication token |
 | `POST` | `/api/auth/logout` | Revoke authentication token |
 
