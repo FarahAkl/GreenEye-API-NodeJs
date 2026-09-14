@@ -18,6 +18,7 @@ import { refreshTokenService } from "../services/auth/refreshTokenService.js";
 import { forgetPasswordService } from "../services/auth/forgetPasswordService.js";
 import { resetPasswordService } from "../services/auth/resetPasswordService.js";
 import { changePasswordService } from "../services/auth/changePasswordService.js";
+import { uploadToCloudinary } from "../utils/cloudinaryUpload.js";
 
 const register = async (req: Request, res: Response) => {
   const validatedReq = registerReqSchema.safeParse(req.body);
@@ -36,7 +37,16 @@ const register = async (req: Request, res: Response) => {
 
   const validatedData = validatedReq.data;
 
-  const result = await registerService(validatedData);
+  const avatar = req.file;
+
+  let avatarUrl: string | undefined;
+
+  if (avatar) {
+    const result = await uploadToCloudinary(avatar.buffer);
+    avatarUrl = result.secure_url;
+  }
+
+  const result = await registerService({ ...validatedData, avatar: avatarUrl });
   return res.status(200).json(successResponse(result.message, result.data));
 };
 

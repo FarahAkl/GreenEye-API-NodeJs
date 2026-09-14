@@ -12,10 +12,13 @@ import {
 } from "../controllers/auth.controller.js";
 import { asyncHandler } from "../middleware/asyncHandler.js";
 import { verifyToken } from "../middleware/verifyToken.js";
+import { upload } from "../config/multer.js";
 
 const authRouter = express.Router();
 
-authRouter.route("/register").post(asyncHandler(register));
+authRouter
+  .route("/register")
+  .post(upload.single("avatar"), asyncHandler(register));
 
 authRouter.route("/verify-otp").post(asyncHandler(verifyOtp));
 
