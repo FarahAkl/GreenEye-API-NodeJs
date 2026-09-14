@@ -8,6 +8,7 @@ import { errorResponse } from "./utils/helper.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import cookieParser from "cookie-parser";
 import { profileRouter } from "./routes/profile.route.js";
+import { aiRouter } from "./routes/ai.route.js";
 // import { cartRouter } from "./routes/cart.route.js";
 // import { categoryRouter } from "./routes/category.route.js";
 // import { orderRouter } from "./routes/order.route.js";
@@ -35,6 +36,7 @@ app.use(
 
 app.use("/api/auth", authRouter);
 app.use("/api/profile", profileRouter);
+app.use("/api/ai", aiRouter);
 // app.use("/api/marketplace/cart", cartRouter);
 // app.use("/api/marketplace/category", categoryRouter);
 // app.use("/api/marketplace/order", orderRouter);
