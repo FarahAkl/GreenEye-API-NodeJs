@@ -1,14 +1,15 @@
 import express from "express";
 import { asyncHandler } from "../middleware/asyncHandler.js";
-import { classification } from "../controllers/ai.controller.js";
+import { classification, forecast } from "../controllers/ai.controller.js";
 import { verifyToken } from "../middleware/verifyToken.js";
 
 const aiRouter = express.Router();
 
-aiRouter.route("/classification").post(verifyToken,asyncHandler(classification));
+aiRouter
+  .route("/classification")
+  .post(verifyToken, asyncHandler(classification));
 
-// aiRouter.route("/forecast").post();
-// aiRouter.route("/forecast/history").get();
+aiRouter.route("/forecast").post(verifyToken, asyncHandler(forecast));
 
 // aiRouter.route("/crop-disease").post();
 // aiRouter.route("/crop-disease/history").get();

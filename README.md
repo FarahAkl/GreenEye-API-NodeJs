@@ -50,7 +50,6 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 |---|---|---|
 | `POST` | `/api/ai/classification` | Get classification information/results |
 | `POST` | `/api/ai/forecast` | Get forecast |
-| `GET` | `/api/ai/forecast/history` | Get user's forecasts |
 | `POST` | `/api/ai/crop-disease` | Create/submit a crop disease detection |
 | `GET` | `/api/ai/crop-disease/history` | Get crop disease detection history |
 | `GET` | `/api/ai/crop-disease/history/:id` | Get a disease history record |
