@@ -1,6 +1,12 @@
 import express from "express";
 import { asyncHandler } from "../middleware/asyncHandler.js";
-import { classification, forecast } from "../controllers/ai.controller.js";
+import {
+  classification,
+  forecast,
+  recommendation,
+  recommendationHistory,
+  recommendationHistoryDeleteById,
+} from "../controllers/ai.controller.js";
 import { verifyToken } from "../middleware/verifyToken.js";
 
 const aiRouter = express.Router();
@@ -17,7 +23,14 @@ aiRouter.route("/forecast").post(verifyToken, asyncHandler(forecast));
 
 // aiRouter.route("/crop-growth-simulation").post();
 
-// aiRouter.route("/crop-recommendation").post();
-// aiRouter.route("/crop-recommendation/history").get();
+aiRouter
+  .route("/crop-recommendation")
+  .post(verifyToken, asyncHandler(recommendation));
+aiRouter
+  .route("/crop-recommendation/history")
+  .get(verifyToken, asyncHandler(recommendationHistory));
+aiRouter
+  .route("/crop-recommendation/history/:id")
+  .delete(verifyToken, asyncHandler(recommendationHistoryDeleteById));
 
 export { aiRouter };

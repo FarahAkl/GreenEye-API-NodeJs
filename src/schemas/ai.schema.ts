@@ -128,6 +128,11 @@ export const forecastResSchema = z.object({
   forecast: z.array(forecastItemSchema),
 });
 
+export const recommendationResSchema = z.object({
+  crop1: z.string(),
+  crop2: z.string(),
+});
+
 export type locationReqT = z.infer<typeof locationReqSchema>;
 
 export type DesertificationFeaturesT = z.infer<
