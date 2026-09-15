@@ -57,6 +57,7 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 | `POST` | `/api/ai/crop-growth-simulation` | Run crop growth simulation |
 | `POST` | `/api/ai/crop-recommendation` | Get crop recommendation |
 | `GET` | `/api/ai/crop-recommendation/history` | Get crop recommendation history |
+| `DELETE` | `/api/ai/crop-recommendation/history/:id` | Delete a recommendation history record |
 
 ### Cart
 
