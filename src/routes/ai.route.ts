@@ -6,6 +6,7 @@ import {
   recommendation,
   recommendationHistory,
   recommendationHistoryDeleteById,
+  simulation,
 } from "../controllers/ai.controller.js";
 import { verifyToken } from "../middleware/verifyToken.js";
 
@@ -17,11 +18,13 @@ aiRouter
 
 aiRouter.route("/forecast").post(verifyToken, asyncHandler(forecast));
 
+aiRouter
+  .route("/crop-growth-simulation")
+  .post(verifyToken, asyncHandler(simulation));
+
 // aiRouter.route("/crop-disease").post();
 // aiRouter.route("/crop-disease/history").get();
 // aiRouter.route("/crop-disease/history/:id").delete().get();
-
-// aiRouter.route("/crop-growth-simulation").post();
 
 aiRouter
   .route("/crop-recommendation")

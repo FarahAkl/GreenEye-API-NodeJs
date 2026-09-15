@@ -133,6 +133,62 @@ export const recommendationResSchema = z.object({
   crop2: z.string(),
 });
 
+export const simulationReqSchema = z.object({
+  latitude: z.number(),
+  longitude: z.number(),
+  cropName: z.string(),
+});
+
+export const simulationResSchema = z.object({
+  crop: z.string(),
+  timestamp: z.string(),
+  yield_prediction: z.number(),
+
+  soil_analysis: z.object({
+    overall_quality: z.number(),
+    texture_score: z.number(),
+    nutrient_score: z.number(),
+    feedback: z.string(),
+  }),
+
+  soil_properties: z.object({
+    field_capacity: z.number(),
+    wilting_point: z.number(),
+    saturation: z.number(),
+  }),
+
+  sensitivity_analysis: z.object({
+    low_irrigation: z.object({
+      yield: z.number(),
+      change_pct: z.number(),
+    }),
+
+    climate_stress: z.object({
+      yield: z.number(),
+      change_pct: z.number(),
+    }),
+  }),
+
+  daily_data: z.array(
+    z.object({
+      day: z.number(),
+      soil_moisture_percent: z.number(),
+      needs_water: z.boolean(),
+      growth_percentage: z.number(),
+      biomass_ton_ha: z.number(),
+      lai: z.number(),
+      temp_c: z.number(),
+      rain_mm: z.number(),
+      irrigation_mm: z.number(),
+      stage_label: z.string(),
+      description: z.string(),
+    }),
+  ),
+});
+
+export type SimulationT = z.infer<typeof simulationResSchema>;
+
+
 export type locationReqT = z.infer<typeof locationReqSchema>;
 
 export type DesertificationFeaturesT = z.infer<
@@ -142,3 +198,5 @@ export type DesertificationFeaturesT = z.infer<
 export type ForecastingInputT = z.infer<typeof forecastingInputSchema>;
 
 export type ForecastT = z.infer<typeof forecastResSchema>;
+
+export type simulationReqT = z.infer<typeof simulationReqSchema>
