@@ -186,8 +186,14 @@ export const simulationResSchema = z.object({
   ),
 });
 
-export type SimulationT = z.infer<typeof simulationResSchema>;
+export const plantDiseaseResSchema = z.object({
+  class: z.string(),
+  confidence: z.number(),
+  cause: z.string(),
+  treatment: z.string(),
+});
 
+export type SimulationT = z.infer<typeof simulationResSchema>;
 
 export type locationReqT = z.infer<typeof locationReqSchema>;
 
@@ -199,4 +205,4 @@ export type ForecastingInputT = z.infer<typeof forecastingInputSchema>;
 
 export type ForecastT = z.infer<typeof forecastResSchema>;
 
-export type simulationReqT = z.infer<typeof simulationReqSchema>
+export type simulationReqT = z.infer<typeof simulationReqSchema>;

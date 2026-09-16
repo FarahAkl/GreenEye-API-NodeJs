@@ -2,13 +2,18 @@ import express from "express";
 import { asyncHandler } from "../middleware/asyncHandler.js";
 import {
   classification,
+  deletePlantDiseaseHistoryById,
   forecast,
+  getPlantDiseaseHistoryById,
+  plantDisease,
+  plantDiseaseHistory,
   recommendation,
   recommendationHistory,
   recommendationHistoryDeleteById,
   simulation,
 } from "../controllers/ai.controller.js";
 import { verifyToken } from "../middleware/verifyToken.js";
+import { upload } from "../config/multer.js";
 
 const aiRouter = express.Router();
 
@@ -22,9 +27,16 @@ aiRouter
   .route("/crop-growth-simulation")
   .post(verifyToken, asyncHandler(simulation));
 
-// aiRouter.route("/crop-disease").post();
-// aiRouter.route("/crop-disease/history").get();
-// aiRouter.route("/crop-disease/history/:id").delete().get();
+aiRouter
+  .route("/plant-disease")
+  .post(verifyToken, upload.single("file"), asyncHandler(plantDisease));
+aiRouter
+  .route("/plant-disease/history")
+  .get(verifyToken, asyncHandler(plantDiseaseHistory));
+aiRouter
+  .route("/plant-disease/history/:id")
+  .get(verifyToken, asyncHandler(getPlantDiseaseHistoryById))
+  .delete(verifyToken, asyncHandler(deletePlantDiseaseHistoryById));
 
 aiRouter
   .route("/crop-recommendation")
