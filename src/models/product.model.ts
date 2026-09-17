@@ -18,8 +18,18 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    categoryId: {
+      type: String,
+      required: true,
+    },
     images: {
       type: [String],
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ["pending", "approved", "rejected"],
+      default: "pending",
       required: true,
     },
     productionDate: {

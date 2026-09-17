@@ -10,25 +10,24 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 
 | Method | Endpoint | Description |
 |---|---|---|
-| `GET` | `/api/Admin/all-pending-users` | Get all pending users |
-| `PUT` | `/api/Admin/user/{userId}/approve` | Approve a pending user |
-| `PUT` | `/api/Admin/user/{userId}/reject` | Reject a pending user |
-| `GET` | `/api/Admin/all-pending-withdrawal-request` | Get all pending withdrawal requests |
-| `PUT` | `/api/Admin/withdrawal-request/{withdrawalRequestId}/approve` | Approve a withdrawal request |
-| `PUT` | `/api/Admin/withdrawal-request/{withdrawalRequestId}/reject` | Reject a withdrawal request |
-| `GET` | `/api/Admin/all-pending-products` | Get all pending products |
-| `PUT` | `/api/Admin/product/{productId}/approve` | Approve a product |
-| `PUT` | `/api/Admin/product/{productId}/reject` | Reject a product |
-| `GET` | `/api/Admin/all-users` | Get all users |
-| `GET` | `/api/Admin/products-count` | Get products count |
-| `GET` | `/api/Admin/orders-count` | Get orders count |
-| `POST` | `/api/Admin/change-role` | Change a user's role |
-| `POST` | `/api/Admin/freeze-user` | Freeze a user |
-| `POST` | `/api/Admin/unfreeze-user` | Unfreeze a user |
-| `GET` | `/api/Admin/product-updates/pending` | Get pending product update requests |
-| `GET` | `/api/Admin/product/{requestId}/update-details` | Get product update request details |
-| `PUT` | `/api/Admin/product-updates/{requestId}/approve` | Approve a product update request |
-| `PUT` | `/api/Admin/product-updates/{requestId}/reject` | Reject a product update request |
+| `GET` | `/api/admin/users` | Get all users |
+| `PUT` | `/api/admin/users/:id/approve` | Approve a pending user |
+| `PUT` | `/api/admin/users/:id/reject` | Reject a pending user |
+| `GET` | `/api/admin/withdrawal-requests` | Get all withdrawal requests |
+| `PUT` | `/api/admin/withdrawal-requests/:id/approve` | Approve a withdrawal request |
+| `PUT` | `/api/admin/withdrawal-requests/:id/reject` | Reject a withdrawal request |
+| `GET` | `/api/admin/products` | Get all products |
+| `PUT` | `/api/admin/products/:id/approve` | Approve a product |
+| `PUT` | `/api/admin/products/:id/reject` | Reject a product |
+| `GET` | `/api/admin/products-count` | Get products count |
+| `GET` | `/api/admin/orders-count` | Get orders count |
+| `POST` | `/api/admin/change-role` | Change a user's role |
+| `POST` | `/api/admin/freeze-user` | Freeze a user |
+| `POST` | `/api/admin/unfreeze-user` | Unfreeze a user |
+| `GET` | `/api/admin/product-updates` | Get pending product update requests |
+| `GET` | `/api/admin/product-updates/:id` | Get product update request details |
+| `PUT` | `/api/admin/product-updates/:id/approve` | Approve a product update request |
+| `PUT` | `/api/admin/product-updates/:id/reject` | Reject a product update request |
 
 ### Authentication
 
@@ -161,13 +160,12 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 
 | Method | Endpoint | Description |
 |---|---|---|
-| `GET` | `/api/Supplier/supplier/{supplierId}/products` | Get supplier products |
-| `POST` | `/api/Supplier/add-products` | Add supplier products |
-| `PUT` | `/api/Supplier/product/{productId}/update` | Update a supplier product |
-| `DELETE` | `/api/Supplier/product/{productId}` | Delete a supplier product |
-| `GET` | `/api/Supplier/{supplierId}/products-in-orders` | Get supplier products included in orders |
-| `GET` | `/api/Supplier/products-in-orders` | Get current supplier's products included in orders |
-| `GET` | `/api/Supplier/profits/{supplierId}` | Get supplier profits |
+| `GET` | `/api/supplier/products` | Get supplier products |
+| `POST` | `/api/supplier/products` | Add supplier products |
+| `PUT` | `/api/supplier/products/:id` | Update a supplier product |
+| `DELETE` | `/api/supplier/products/:id` | Delete a supplier product |
+| `GET` | `/api/supplier/products-in-orders` | Get supplier products included in orders |
+| `GET` | `/api/supplier/profits` | Get supplier profits |
 
 ### User Activity
 
