@@ -76,7 +76,7 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 | `GET` | `/api/marketplace/category` | Get all categories |
 | `POST` | `/api/marketplace/category` | Create a category |
 | `GET` | `/api/marketplace/category/:categoryId` | Get a category by ID |
-| `PUT` | `/api/marketplace/category/:categoryId` | Update a category |
+| `PATCH` | `/api/marketplace/category/:categoryId` | Update a category |
 | `DELETE` | `/api/marketplace/category/:categoryId` | Delete a category |
 
 ### Comment

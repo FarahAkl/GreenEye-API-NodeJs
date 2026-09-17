@@ -2,15 +2,16 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 import expressRateLimit from "express-rate-limit";
-import { authRouter } from "./routes/auth.route.js";
 import { errorResponse } from "./utils/helper.js";
 import { errorHandler } from "./middleware/errorHandler.js";
-import cookieParser from "cookie-parser";
-import { profileRouter } from "./routes/profile.route.js";
 import { aiRouter } from "./routes/ai.route.js";
+import { authRouter } from "./routes/auth.route.js";
+import { profileRouter } from "./routes/profile.route.js";
+import { categoryRouter } from "./routes/category.route.js";
+import { seedAdmin } from "./seed/admin.seed.js";
 // import { cartRouter } from "./routes/cart.route.js";
-// import { categoryRouter } from "./routes/category.route.js";
 // import { orderRouter } from "./routes/order.route.js";
 // import { productRouter } from "./routes/product.route.js";
 
@@ -21,6 +22,7 @@ const DB_URL = process.env.DB_URL || "";
 const app = express();
 
 mongoose.connect(DB_URL).then(() => console.log("Connected to MongoDB! ✅"));
+await seedAdmin();
 
 app.use(cors());
 app.use(express.json());
@@ -37,8 +39,8 @@ app.use(
 app.use("/api/auth", authRouter);
 app.use("/api/profile", profileRouter);
 app.use("/api/ai", aiRouter);
+app.use("/api/marketplace/category", categoryRouter);
 // app.use("/api/marketplace/cart", cartRouter);
-// app.use("/api/marketplace/category", categoryRouter);
 // app.use("/api/marketplace/order", orderRouter);
 // app.use("/api/marketplace/product", productRouter);
 
