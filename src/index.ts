@@ -14,6 +14,8 @@ import { seedAdmin } from "./seed/admin.seed.js";
 // import { cartRouter } from "./routes/cart.route.js";
 // import { orderRouter } from "./routes/order.route.js";
 // import { productRouter } from "./routes/product.route.js";
+// import { adminRouter } from "./routes/admin.route.js";
+// import { supplierRouter } from "./routes/supplier.route.js";
 
 dotenv.config();
 
@@ -21,7 +23,9 @@ const PORT = process.env.PORT || 5000;
 const DB_URL = process.env.DB_URL || "";
 const app = express();
 
-mongoose.connect(DB_URL).then(() => console.log("Connected to MongoDB! ✅"));
+await mongoose
+  .connect(DB_URL)
+  .then(() => console.log("Connected to MongoDB! ✅"));
 await seedAdmin();
 
 app.use(cors());
@@ -43,6 +47,8 @@ app.use("/api/marketplace/category", categoryRouter);
 // app.use("/api/marketplace/cart", cartRouter);
 // app.use("/api/marketplace/order", orderRouter);
 // app.use("/api/marketplace/product", productRouter);
+// app.use("/api/admin", adminRouter);
+// app.use("/api/supplier", supplierRouter);
 
 app.all("/{*splat}", (req, res) => {
   res.status(404).json(errorResponse("This resource is not available", null));

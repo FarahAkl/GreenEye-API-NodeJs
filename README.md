@@ -11,23 +11,24 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 | Method | Endpoint | Description |
 |---|---|---|
 | `GET` | `/api/admin/users` | Get all users |
-| `PUT` | `/api/admin/users/:id/approve` | Approve a pending user |
-| `PUT` | `/api/admin/users/:id/reject` | Reject a pending user |
+| `PATCH` | `/api/admin/users/:userId/approve` | Approve a pending user |
+| `PATCH` | `/api/admin/users/:userId/reject` | Reject a pending user |
+| `PATCH` | `/api/admin/users/:userId/change-role` | Change a user's role |
+| `PATCH` | `/api/admin/users/:userId/freeze` | Freeze a user |
+| `PATCH` | `/api/admin/users/:userId/unfreeze` | Unfreeze a user |
 | `GET` | `/api/admin/withdrawal-requests` | Get all withdrawal requests |
-| `PUT` | `/api/admin/withdrawal-requests/:id/approve` | Approve a withdrawal request |
-| `PUT` | `/api/admin/withdrawal-requests/:id/reject` | Reject a withdrawal request |
+| `GET` | `/api/admin/withdrawal-requests/:withdrawalId` | Get withdrawal requests |
+| `PATCH` | `/api/admin/withdrawal-requests/:withdrawalId/approve` | Approve a withdrawal request |
+| `PATCH` | `/api/admin/withdrawal-requests/:withdrawalId/reject` | Reject a withdrawal request |
 | `GET` | `/api/admin/products` | Get all products |
-| `PUT` | `/api/admin/products/:id/approve` | Approve a product |
-| `PUT` | `/api/admin/products/:id/reject` | Reject a product |
+| `PATCH` | `/api/admin/products/:productId/approve` | Approve a product |
+| `PUT` | `/api/admin/products/:productId/reject` | Reject a product |
 | `GET` | `/api/admin/products-count` | Get products count |
 | `GET` | `/api/admin/orders-count` | Get orders count |
-| `POST` | `/api/admin/change-role` | Change a user's role |
-| `POST` | `/api/admin/freeze-user` | Freeze a user |
-| `POST` | `/api/admin/unfreeze-user` | Unfreeze a user |
 | `GET` | `/api/admin/product-updates` | Get pending product update requests |
-| `GET` | `/api/admin/product-updates/:id` | Get product update request details |
-| `PUT` | `/api/admin/product-updates/:id/approve` | Approve a product update request |
-| `PUT` | `/api/admin/product-updates/:id/reject` | Reject a product update request |
+| `GET` | `/api/admin/product-updates/:productId` | Get product update request details |
+| `PATCH` | `/api/admin/product-updates/:productId/approve` | Approve a product update request |
+| `PATCH` | `/api/admin/product-updates/:productId/reject` | Reject a product update request |
 
 ### Authentication
 
@@ -162,8 +163,8 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 |---|---|---|
 | `GET` | `/api/supplier/products` | Get supplier products |
 | `POST` | `/api/supplier/products` | Add supplier products |
-| `PUT` | `/api/supplier/products/:id` | Update a supplier product |
-| `DELETE` | `/api/supplier/products/:id` | Delete a supplier product |
+| `DELETE` | `/api/supplier/products/:productId` | Delete a supplier product |
+| `POST` | `/api/supplier/product-updates/:productId` | Update a supplier product |
 | `GET` | `/api/supplier/products-in-orders` | Get supplier products included in orders |
 | `GET` | `/api/supplier/profits` | Get supplier profits |
 

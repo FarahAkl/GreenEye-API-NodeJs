@@ -10,6 +10,7 @@ import {
 import { authorizeRoles } from "../middleware/authorizeRoles.js";
 import { verifyToken } from "../middleware/verifyToken.js";
 import { upload } from "../config/multer.js";
+import { userRoles } from "../utils/constants.js";
 
 const categoryRouter = express.Router();
 
@@ -18,7 +19,7 @@ categoryRouter
   .get(asyncHandler(getCategories))
   .post(
     verifyToken,
-    authorizeRoles("admin"),
+    authorizeRoles(userRoles.ADMIN),
     upload.single("categoryImage"),
     asyncHandler(createCategory),
   );
@@ -28,12 +29,12 @@ categoryRouter
   .get(asyncHandler(getCategoryById))
   .delete(
     verifyToken,
-    authorizeRoles("admin"),
+    authorizeRoles(userRoles.ADMIN),
     asyncHandler(deleteCategoryById),
   )
   .patch(
     verifyToken,
-    authorizeRoles("admin"),
+    authorizeRoles(userRoles.ADMIN),
     upload.single("categoryImage"),
     asyncHandler(updateCategory),
   );
