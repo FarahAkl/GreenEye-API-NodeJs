@@ -6,16 +6,16 @@ import cookieParser from "cookie-parser";
 import expressRateLimit from "express-rate-limit";
 import { errorResponse } from "./utils/helper.js";
 import { errorHandler } from "./middleware/errorHandler.js";
+import { seedAdmin } from "./seed/admin.seed.js";
 import { aiRouter } from "./routes/ai.route.js";
 import { authRouter } from "./routes/auth.route.js";
 import { profileRouter } from "./routes/profile.route.js";
 import { categoryRouter } from "./routes/category.route.js";
-import { seedAdmin } from "./seed/admin.seed.js";
+import { supplierRouter } from "./routes/supplier.route.js";
 // import { cartRouter } from "./routes/cart.route.js";
 // import { orderRouter } from "./routes/order.route.js";
 // import { productRouter } from "./routes/product.route.js";
 // import { adminRouter } from "./routes/admin.route.js";
-// import { supplierRouter } from "./routes/supplier.route.js";
 
 dotenv.config();
 
@@ -44,11 +44,11 @@ app.use("/api/auth", authRouter);
 app.use("/api/profile", profileRouter);
 app.use("/api/ai", aiRouter);
 app.use("/api/marketplace/category", categoryRouter);
+app.use("/api/supplier", supplierRouter);
 // app.use("/api/marketplace/cart", cartRouter);
 // app.use("/api/marketplace/order", orderRouter);
 // app.use("/api/marketplace/product", productRouter);
 // app.use("/api/admin", adminRouter);
-// app.use("/api/supplier", supplierRouter);
 
 app.all("/{*splat}", (req, res) => {
   res.status(404).json(errorResponse("This resource is not available", null));

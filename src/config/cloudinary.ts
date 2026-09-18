@@ -16,6 +16,7 @@ cloudinary.config({
   api_key: apiKey,
   api_secret: apiSecret,
   secure: true,
+  upload_prefix: "https://api.cloudinary.com",
 });
 
 export { cloudinary };
