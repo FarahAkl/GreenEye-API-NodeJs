@@ -54,9 +54,13 @@ export const getSupplierProducts = async (req: Request, res: Response) => {
 
 export const createProduct = async (req: Request, res: Response) => {
   const user = req.user;
-  if (!user) throw new AppError("Not authenticated", 401);
+
+  if (!user) {
+    throw new AppError("Not authenticated", 401);
+  }
 
   const validatedReq = createProductReqSchema.safeParse(req.body);
+
   if (!validatedReq.success) {
     return res.status(400).json(
       errorResponse(
@@ -69,24 +73,31 @@ export const createProduct = async (req: Request, res: Response) => {
     );
   }
 
-  const images = req.files as Express.Multer.File[];
-  if (!images.length) throw new AppError("At least one image is required", 400);
-  if (images.length > 5)
-    throw new AppError("Maximum number of images is 5", 400);
+  const images = req.files;
 
-  const imageUrls = await Promise.all(
-    images.map(async (image, index) => {
-      const result = await uploadToCloudinary(image.buffer);
-      return result.secure_url;
-    }),
-  );
+  if (!Array.isArray(images) || images.length === 0) {
+    throw new AppError("At least one image is required", 400);
+  }
+
+  if (images.length > 5) {
+    throw new AppError("Maximum number of images is 5", 400);
+  }
 
   const validatedData = validatedReq.data;
 
   const existingCategory = await category.findById(validatedData.categoryId);
+
   if (!existingCategory) {
     throw new AppError("Category not found", 404);
   }
+
+  const imageUrls = await Promise.all(
+    images.map(async (image) => {
+      const result = await uploadToCloudinary(image.buffer);
+
+      return result.secure_url;
+    }),
+  );
 
   const productData = await product.create({
     ...validatedData,
@@ -95,6 +106,6 @@ export const createProduct = async (req: Request, res: Response) => {
   });
 
   return res
-    .status(200)
+    .status(201)
     .json(successResponse("Product created successfully", productData));
 };
