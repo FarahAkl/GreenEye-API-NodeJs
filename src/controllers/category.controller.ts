@@ -7,6 +7,7 @@ import {
   updateCategoryReqSchema,
 } from "../schemas/category.schema.js";
 import { uploadToCloudinary } from "../utils/cloudinaryUpload.js";
+import { product } from "../models/product.model.js";
 
 export const getCategories = async (req: Request, res: Response) => {
   const categories = await category.find({}, { __v: false });
@@ -65,6 +66,19 @@ export const getCategoryById = async (req: Request, res: Response) => {
 export const deleteCategoryById = async (req: Request, res: Response) => {
   const id = req.params.categoryId;
   if (!id) throw new AppError("Id is required", 400);
+
+  const existingCategory = await category.findById(id);
+
+  if (!existingCategory) {
+    throw new AppError("Category not found", 404);
+  }
+
+  const hasProducts = await product.exists({ categoryId: id });
+  if (hasProducts)
+    throw new AppError(
+      "Category cannot be deleted because it contains products",
+      409,
+    );
 
   await category.findByIdAndDelete(id);
 
