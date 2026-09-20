@@ -1,23 +1,43 @@
 import type { Request, Response } from "express";
-import { errorResponse, successResponse } from "../utils/helper.js";
+import {
+  buildProductFilter,
+  errorResponse,
+  successResponse,
+} from "../utils/helper.js";
 import { product } from "../models/product.model.js";
 import { AppError } from "../utils/appError.js";
 import { getPagination, paginate } from "../utils/pagination.js";
 import { createProductReqSchema } from "../schemas/supplier.schema.js";
 import { uploadToCloudinary } from "../utils/cloudinaryUpload.js";
 import { category } from "../models/category.model.js";
+import { productFilterSchema } from "../schemas/product.schema.js";
 
 export const getSupplierProducts = async (req: Request, res: Response) => {
   const user = req.user;
   if (!user) throw new AppError("Not authenticated", 401);
-  const { page, limit } = getPagination({
-    page: Number(req.query.page),
-    limit: Number(req.query.limit),
-  });
-  const filter = { supplierId: user.id };
-  const products = await paginate(product, filter, {
+
+  const validatedQuery = productFilterSchema.safeParse(req.query);
+
+  if (!validatedQuery.success) {
+    return res.status(400).json(
+      errorResponse(
+        "Invalid query parameters",
+        validatedQuery.error.issues.map((issue) => ({
+          field: issue.path[0],
+          message: issue.message,
+        })),
+      ),
+    );
+  }
+
+  const { page = 1, limit = 10, ...filters } = validatedQuery.data;
+  const pagination = getPagination({
     page,
     limit,
+  });
+  const filter = { supplierId: user.id, ...buildProductFilter(filters) };
+  const products = await paginate(product, filter, {
+    ...pagination,
     select: "-__v",
   });
 
