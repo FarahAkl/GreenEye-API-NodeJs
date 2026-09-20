@@ -21,9 +21,7 @@ export const errorResponse = <T>(
   errors,
 });
 
-export const buildProductFilter = (
-  filters: productFilterT,
-) => {
+export const buildProductFilter = (filters: productFilterT) => {
   const filter: Record<string, unknown> = {};
 
   if (filters.status) {
@@ -67,5 +65,12 @@ export const buildProductFilter = (
     };
   }
 
-  return filter;
+  const sort =
+    filters.sortPrice === "asc"
+      ? "price"
+      : filters.sortPrice === "desc"
+        ? "-price"
+        : undefined;
+
+  return { filter, sort };
 };

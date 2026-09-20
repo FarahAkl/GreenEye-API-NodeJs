@@ -35,11 +35,16 @@ export const getSupplierProducts = async (req: Request, res: Response) => {
     page,
     limit,
   });
-  const filter = { supplierId: user.id, ...buildProductFilter(filters) };
-  const products = await paginate(product, filter, {
-    ...pagination,
-    select: "-__v",
-  });
+  const { filter, sort } = buildProductFilter(filters);
+  const products = await paginate(
+    product,
+    { supplierId: user.id, ...filter },
+    {
+      ...pagination,
+      select: "-__v",
+      ...(sort !== undefined ? { sort } : {}),
+    },
+  );
 
   return res
     .status(200)

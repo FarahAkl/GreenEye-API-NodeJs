@@ -18,6 +18,8 @@ export const productFilterSchema = z.object({
   createdFrom: z.coerce.date().optional(),
 
   createdTo: z.coerce.date().optional(),
+
+  sortPrice: z.enum(["asc", "desc"]).optional(),
 });
 
 export type productFilterT = z.infer<typeof productFilterSchema>;

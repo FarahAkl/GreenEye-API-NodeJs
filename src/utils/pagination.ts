@@ -10,6 +10,7 @@ export type PaginationOptionT = {
   page: number;
   limit: number;
   select?: string;
+  sort?: string;
 };
 
 interface PaginatedResultT<T> {
@@ -32,13 +33,16 @@ export const paginate = async <T>(
   filter: object,
   options: PaginationOptionT,
 ): Promise<PaginatedResultT<T>> => {
-  const { page, limit, select } = options;
+  const { page, limit, select, sort } = options;
   const skip = (page - 1) * limit;
 
   const query = model.find(filter).skip(skip).limit(limit);
 
   if (select) {
     query.select(select);
+  }
+  if (sort) {
+    query.sort(sort);
   }
 
   const [data, total] = await Promise.all([
