@@ -15,7 +15,7 @@ import { supplierRouter } from "./routes/supplier.route.js";
 // import { cartRouter } from "./routes/cart.route.js";
 // import { orderRouter } from "./routes/order.route.js";
 // import { productRouter } from "./routes/product.route.js";
-// import { adminRouter } from "./routes/admin.route.js";
+import { adminRouter } from "./routes/admin.route.js";
 
 dotenv.config();
 
@@ -40,15 +40,15 @@ app.use(
   }),
 );
 
-app.use("/api/auth", authRouter);
-app.use("/api/profile", profileRouter);
 app.use("/api/ai", aiRouter);
-app.use("/api/marketplace/category", categoryRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/admin", adminRouter);
+app.use("/api/profile", profileRouter);
 app.use("/api/supplier", supplierRouter);
+app.use("/api/marketplace/category", categoryRouter);
 // app.use("/api/marketplace/cart", cartRouter);
 // app.use("/api/marketplace/order", orderRouter);
 // app.use("/api/marketplace/product", productRouter);
-// app.use("/api/admin", adminRouter);
 
 app.all("/{*splat}", (req, res) => {
   res.status(404).json(errorResponse("This resource is not available", null));

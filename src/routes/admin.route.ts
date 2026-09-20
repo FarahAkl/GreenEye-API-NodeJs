@@ -1,11 +1,15 @@
 import express from "express";
-import { verifyToken } from "../middleware/verifyToken.js";
 import { authorizeRoles } from "../middleware/authorizeRoles.js";
+import { asyncHandler } from "../middleware/asyncHandler.js";
+import { verifyToken } from "../middleware/verifyToken.js";
 import { userRoles } from "../utils/constants.js";
+import { getUsers } from "../controllers/admin.controller.js";
 
 const adminRouter = express.Router();
 
-adminRouter.route("/users").get(verifyToken, authorizeRoles(userRoles.ADMIN));
+adminRouter
+  .route("/users")
+  .get(verifyToken, authorizeRoles(userRoles.ADMIN), asyncHandler(getUsers));
 adminRouter
   .route("/users/:userId/approve")
   .patch(verifyToken, authorizeRoles(userRoles.ADMIN));
