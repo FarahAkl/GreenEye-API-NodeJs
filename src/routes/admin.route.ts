@@ -3,7 +3,12 @@ import { authorizeRoles } from "../middleware/authorizeRoles.js";
 import { asyncHandler } from "../middleware/asyncHandler.js";
 import { verifyToken } from "../middleware/verifyToken.js";
 import { userRoles } from "../utils/constants.js";
-import { getUsers } from "../controllers/admin.controller.js";
+import {
+  approveUser,
+  changeRole,
+  getUsers,
+  rejectUser,
+} from "../controllers/admin.controller.js";
 
 const adminRouter = express.Router();
 
@@ -12,13 +17,25 @@ adminRouter
   .get(verifyToken, authorizeRoles(userRoles.ADMIN), asyncHandler(getUsers));
 adminRouter
   .route("/users/:userId/approve")
-  .patch(verifyToken, authorizeRoles(userRoles.ADMIN));
+  .patch(
+    verifyToken,
+    authorizeRoles(userRoles.ADMIN),
+    asyncHandler(approveUser),
+  );
 adminRouter
   .route("/users/:userId/reject")
-  .patch(verifyToken, authorizeRoles(userRoles.ADMIN));
+  .patch(
+    verifyToken,
+    authorizeRoles(userRoles.ADMIN),
+    asyncHandler(rejectUser),
+  );
 adminRouter
   .route("/users/:userId/change-role")
-  .patch(verifyToken, authorizeRoles(userRoles.ADMIN));
+  .patch(
+    verifyToken,
+    authorizeRoles(userRoles.ADMIN),
+    asyncHandler(changeRole),
+  );
 adminRouter
   .route("/users/:userId/freeze")
   .patch(verifyToken, authorizeRoles(userRoles.ADMIN));
