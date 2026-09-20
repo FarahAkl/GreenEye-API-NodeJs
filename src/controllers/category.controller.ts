@@ -36,7 +36,10 @@ export const createCategory = async (req: Request, res: Response) => {
   const categoryImage = req.file;
   if (!categoryImage) throw new AppError("Category image is required", 400);
 
-  const result = await uploadToCloudinary(categoryImage.buffer);
+  const result = await uploadToCloudinary(
+    categoryImage.buffer,
+    "greeneye/categories",
+  );
   const imageUrl = result.secure_url;
   console.log(req.user);
 
@@ -92,7 +95,10 @@ export const updateCategory = async (req: Request, res: Response) => {
   let imageUrl: string | undefined;
 
   if (req.file) {
-    const result = await uploadToCloudinary(req.file.buffer);
+    const result = await uploadToCloudinary(
+      req.file.buffer,
+      "greeneye/categories",
+    );
 
     imageUrl = result.secure_url;
   }

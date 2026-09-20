@@ -2,11 +2,12 @@ import { cloudinary } from "../config/cloudinary.js";
 
 export const uploadToCloudinary = (
   buffer: Buffer,
+  folder:string,
 ): Promise<{ secure_url: string; public_id: string }> => {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
-        folder: "greeneye/avatars",
+        folder,
         resource_type: "image",
       },
       (error, result) => {

@@ -165,7 +165,7 @@ export const plantDisease = async (req: Request, res: Response) => {
   if (!validPlantDiseaseRes.success)
     throw new AppError("Invalid response from plant disease API", 502);
 
-  const result = await uploadToCloudinary(file.buffer);
+  const result = await uploadToCloudinary(file.buffer,'greeneye/plant-disease');
   const fileUrl = result.secure_url;
 
   const { confidence, cause, treatment } = validPlantDiseaseRes.data;

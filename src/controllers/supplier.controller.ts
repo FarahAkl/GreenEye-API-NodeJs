@@ -93,7 +93,7 @@ export const createProduct = async (req: Request, res: Response) => {
 
   const imageUrls = await Promise.all(
     images.map(async (image) => {
-      const result = await uploadToCloudinary(image.buffer);
+      const result = await uploadToCloudinary(image.buffer,'greeneye/products');
 
       return result.secure_url;
     }),

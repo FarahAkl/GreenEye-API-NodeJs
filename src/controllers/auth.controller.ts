@@ -42,7 +42,7 @@ const register = async (req: Request, res: Response) => {
   let avatarUrl: string | undefined;
 
   if (avatar) {
-    const result = await uploadToCloudinary(avatar.buffer);
+    const result = await uploadToCloudinary(avatar.buffer,'greeneye/avatars');
     avatarUrl = result.secure_url;
   }
 
