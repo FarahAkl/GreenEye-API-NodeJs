@@ -5,6 +5,7 @@ import { userRoles } from "../utils/constants.js";
 import { asyncHandler } from "../middleware/asyncHandler.js";
 import {
   createProduct,
+  deleteProductById,
   getSupplierProducts,
 } from "../controllers/supplier.controller.js";
 import { upload } from "../config/multer.js";
@@ -26,7 +27,11 @@ supplierRouter
   );
 supplierRouter
   .route("/products/:productId")
-  .delete(verifyToken, authorizeRoles(userRoles.SUPPLIER));
+  .delete(
+    verifyToken,
+    authorizeRoles(userRoles.SUPPLIER),
+    asyncHandler(deleteProductById),
+  );
 supplierRouter
   .route("/product-updates/:productId")
   .post(verifyToken, authorizeRoles(userRoles.SUPPLIER));
