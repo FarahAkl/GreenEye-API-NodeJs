@@ -93,7 +93,10 @@ export const createProduct = async (req: Request, res: Response) => {
 
   const imageUrls = await Promise.all(
     images.map(async (image) => {
-      const result = await uploadToCloudinary(image.buffer,'greeneye/products');
+      const result = await uploadToCloudinary(
+        image.buffer,
+        "greeneye/products",
+      );
 
       return result.secure_url;
     }),
@@ -108,4 +111,22 @@ export const createProduct = async (req: Request, res: Response) => {
   return res
     .status(201)
     .json(successResponse("Product created successfully", productData));
+};
+
+export const deleteProductById = async (req: Request, res: Response) => {
+  const user = req.user;
+  if (!user) throw new AppError("Not authenticated", 401);
+
+  const id = req.params.productId;
+  if (!id) throw new AppError("Product id is required", 400);
+
+  const existingProduct = await product.findOne({
+    _id: id,
+    supplierId: user.id,
+  });
+  if (!existingProduct) throw new AppError("Product not found", 404);
+
+  await product.findByIdAndDelete(id);
+
+  return res.status(200).json(successResponse("Product deleted successfully"));
 };
