@@ -4,7 +4,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import expressRateLimit from "express-rate-limit";
-import swaggerUi from "swagger-ui-express";
+// import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./config/swagger.js";
 import { errorResponse } from "./utils/helper.js";
 import { errorHandler } from "./middleware/errorHandler.js";
@@ -31,7 +31,40 @@ app.use(
   }),
 );
 
-app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.get("/swagger.json", (_req, res) => {
+  res.json(swaggerSpec);
+});
+
+app.get(["/swagger", "/swagger/"], (_req, res) => {
+  res.type("html").send(`
+    <!doctype html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>GreenEye API Documentation</title>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui.css"
+        />
+      </head>
+      <body>
+        <div id="swagger-ui"></div>
+
+        <script src="https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
+        <script>
+          SwaggerUIBundle({
+            url: "/swagger.json",
+            dom_id: "#swagger-ui",
+            deepLinking: true,
+            presets: [SwaggerUIBundle.presets.apis],
+            layout: "BaseLayout"
+          });
+        </script>
+      </body>
+    </html>
+  `);
+});
 
 app.use("/api/ai", aiRouter);
 app.use("/api/auth", authRouter);
