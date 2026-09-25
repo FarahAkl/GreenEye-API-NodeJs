@@ -23,6 +23,10 @@ const options: swaggerJSDoc.Options = {
         url: "https://localhost:5000",
         description: "Local server",
       },
+      {
+        url: "https://green-eye-api-node-js.vercel.app",
+        description: "Global server",
+      },
     ],
 
     tags: [
