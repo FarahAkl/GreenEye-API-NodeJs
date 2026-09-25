@@ -4,7 +4,9 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 
 > **API Reference:** The endpoint list below is based on the GreenEye OpenAPI/Swagger specification. Exact request bodies, query parameters, response schemas, and authorization requirements should be checked against the Swagger specification.
 
-## Endpoints (101)
+**Interactive Swagger documentation:** [https://green-eye-api-node-js.vercel.app/swagger](https://green-eye-api-node-js.vercel.app/swagger)
+
+## Endpoints 
 
 ### Admin
 
@@ -65,8 +67,8 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 |---|---|---|
 | `GET` | `/api/marketplace/cart` | Get current cart |
 | `POST` | `/api/marketplace/cart/add-items` | Add items to cart |
-| `PUT` | `/api/marketplace/cart/items/{cartItemId}` | Update a cart item |
-| `DELETE` | `/api/marketplace/cart/items/{cartItemId}` | Remove a cart item |
+| `PUT` | `/api/marketplace/cart/items/:itemId` | Update a cart item |
+| `DELETE` | `/api/marketplace/cart/items/:itemId` | Remove a cart item |
 | `DELETE` | `/api/marketplace/cart` | Clear cart |
 
 ### Category
@@ -84,9 +86,9 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 | Method | Endpoint | Description |
 |---|---|---|
 | `POST` | `/api/Comment/add` | Add a comment |
-| `GET` | `/api/Comment/post/{postId}` | Get comments for a post |
+| `GET` | `/api/Comment/post/:postId` | Get comments for a post |
 | `PUT` | `/api/Comment` | Update a comment |
-| `DELETE` | `/api/Comment/{commentId}` | Delete a comment |Description |
+| `DELETE` | `/api/Comment/:commentId` | Delete a comment |Description |
 
 ### Notifications
 
@@ -94,7 +96,7 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 |---|---|---|
 | `GET` | `/api/Notifications` | Get notifications |
 | `GET` | `/api/Notifications/unread-count` | Get unread notification count |
-| `POST` | `/api/Notifications/mark-as-read/{id}` | Mark a notification as read |
+| `POST` | `/api/Notifications/mark-as-read/:id` | Mark a notification as read |
 | `POST` | `/api/Notifications/mark-all-as-read` | Mark all notifications as read |
 
 ### Order
@@ -114,10 +116,10 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 |---|---|---|
 | `POST` | `/api/Post/create` | Create a post |
 | `GET` | `/api/Post/all` | Get all posts |
-| `GET` | `/api/Post/{id}` | Get a post by ID |
+| `GET` | `/api/Post/:postId` | Get a post by ID |
 | `DELETE` | `/api/Post` | Delete a post |
-| `POST` | `/api/Post/{id}/like` | Like/unlike a post |
-| `POST` | `/api/Post/{id}/favorite` | Add/remove a post from favorites |
+| `POST` | `/api/Post/:postId/like` | Like/unlike a post |
+| `POST` | `/api/Post/:postId/favorite` | Add/remove a post from favorites |
 | `GET` | `/api/Post/my-favorites` | Get current user's favorite posts |
 
 ### Post Category
@@ -132,7 +134,7 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 | Method | Endpoint | Description |
 |---|---|---|
 | `GET` | `/api/marketplace/product` | Get all products |
-| `GET` | `/api/marketplace/product/{id}` | Get a product by ID |
+| `GET` | `/api/marketplace/product/:id` | Get a product by ID |
 
 ### Profile
 
@@ -147,7 +149,7 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 | Method | Endpoint | Description |
 |---|---|---|
 | `POST` | `/api/marketplace/Review` | Create a product review |
-| `GET` | `/api/marketplace/Review/product/{productId}` | Get reviews for a product |
+| `GET` | `/api/marketplace/Review/product/:productId` | Get reviews for a product |
 
 ### Shipping
 
@@ -155,7 +157,7 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 |---|---|---|
 | `POST` | `/api/Shipping/shipping-rate` | Get shipping rates |
 | `POST` | `/api/Shipping/shippo-webhook` | Handle Shippo webhook |
-| `GET` | `/api/Shipping/order/{orderId}/shipment-info` | Get shipment information for an order |
+| `GET` | `/api/Shipping/order/:orderId/shipment-info` | Get shipment information for an order |
 
 ### Supplier
 
@@ -173,8 +175,8 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 | Method | Endpoint | Description |
 |---|---|---|
 | `GET` | `/api/UserActivity/timeline` | Get user activity timeline |
-| `GET` | `/api/UserActivity/{id}` | Get an activity by ID |
-| `DELETE` | `/api/UserActivity/{id}` | Delete an activity |
+| `GET` | `/api/UserActivity/:id` | Get an activity by ID |
+| `DELETE` | `/api/UserActivity/:id` | Delete an activity |
 | `DELETE` | `/api/UserActivity/all` | Delete all user activities |
 
 ### Wallet
@@ -182,9 +184,9 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 | Method | Endpoint | Description |
 |---|---|---|
 | `GET` | `/api/Wallet/all-wallets` | Get all wallets |
-| `GET` | `/api/Wallet/supplier/{supplierId}` | Get supplier wallet |
+| `GET` | `/api/Wallet/supplier/:supplierId` | Get supplier wallet |
 | `GET` | `/api/Wallet/supplier/wallet` | Get current supplier wallet |
-| `GET` | `/api/Wallet/{walletId}/transactions` | Get wallet transactions |
+| `GET` | `/api/Wallet/:walletId/transactions` | Get wallet transactions |
 | `GET` | `/api/Wallet/transactions` | Get current wallet transactions |
 | `POST` | `/api/Wallet/create-withdrawal` | Create a withdrawal request |
 

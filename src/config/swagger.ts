@@ -20,43 +20,32 @@ const options: swaggerJSDoc.Options = {
     },
     servers: [
       {
-        url: "https://localhost:5000",
-        description: "Local server",
-      },
-      {
-        url: "https://green-eye-api-node-js.vercel.app",
-        description: "Global server",
+        url: "/",
+        description: "Current deployment",
       },
     ],
 
     tags: [
       {
         name: "Auth",
-        description: "Authentication endpoints",
       },
       {
         name: "Admin",
-        description: "Admin endpoints",
       },
       {
         name: "Supplier",
-        description: "Supplier endpoints",
       },
       {
         name: "Profile",
-        description: "Profile endpoints",
       },
       {
         name: "AI",
-        description: "AI endpoints",
       },
       {
         name: "Category",
-        description: "Category endpoints",
       },
     ],
   },
-
   apis: ["./src/routes/*.ts"],
 };
 

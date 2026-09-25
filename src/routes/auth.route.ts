@@ -90,20 +90,95 @@ authRouter
   .route("/register")
   .post(upload.single("avatar"), asyncHandler(register));
 
+/** @swagger
+ * /api/auth/verify-otp:
+ *   post:
+ *     tags: [Auth]
+ *     summary: Verify a six-digit email OTP
+ *     requestBody:
+ *       required: true
+ *       content: { application/json: { schema: { type: object, required: [email, otp, type], properties: { email: { type: string, format: email }, otp: { type: string, minLength: 6, maxLength: 6 }, type: { type: string, enum: [registration, forget_password] } } } } }
+ *     responses: { '200': { description: OTP verified }, '400': { description: Validation failed } }
+ */
 authRouter.route("/verify-otp").post(asyncHandler(verifyOtp));
 
+/** @swagger
+ * /api/auth/login:
+ *   post:
+ *     tags: [Auth]
+ *     summary: Sign in with email and password
+ *     requestBody:
+ *       required: true
+ *       content: { application/json: { schema: { type: object, required: [email, password], properties: { email: { type: string, format: email }, password: { type: string, format: password, minLength: 8, maxLength: 256 } } } } }
+ *     responses: { '200': { description: Signed in }, '400': { description: Validation failed }, '401': { description: Invalid credentials } }
+ */
 authRouter.route("/login").post(asyncHandler(login));
 
+/** @swagger
+ * /api/auth/refresh-token:
+ *   post:
+ *     tags: [Auth]
+ *     summary: Refresh the access token using the refresh-token cookie
+ *     responses: { '200': { description: Access token refreshed }, '401': { description: Invalid or missing refresh token } }
+ */
 authRouter.route("/refresh-token").post(asyncHandler(refreshToken));
 
+/** @swagger
+ * /api/auth/logout:
+ *   post:
+ *     tags: [Auth]
+ *     summary: Sign out and clear authentication cookies
+ *     responses: { '200': { description: Signed out } }
+ */
 authRouter.route("/logout").post(logout);
 
+/** @swagger
+ * /api/auth/resend-otp:
+ *   post:
+ *     tags: [Auth]
+ *     summary: Resend a registration or password-reset OTP
+ *     requestBody:
+ *       required: true
+ *       content: { application/json: { schema: { type: object, required: [email, type], properties: { email: { type: string, format: email }, type: { type: string, enum: [registration, forget_password] } } } } }
+ *     responses: { '200': { description: OTP sent }, '400': { description: Validation failed } }
+ */
 authRouter.route("/resend-otp").post(asyncHandler(resendOtp));
 
+/** @swagger
+ * /api/auth/forget-password:
+ *   post:
+ *     tags: [Auth]
+ *     summary: Request a password-reset OTP
+ *     requestBody:
+ *       required: true
+ *       content: { application/json: { schema: { type: object, required: [email], properties: { email: { type: string, format: email } } } } }
+ *     responses: { '200': { description: Reset OTP sent }, '400': { description: Validation failed } }
+ */
 authRouter.route("/forget-password").post(asyncHandler(forgetPassword));
 
+/** @swagger
+ * /api/auth/reset-password:
+ *   post:
+ *     tags: [Auth]
+ *     summary: Reset password after OTP verification
+ *     requestBody:
+ *       required: true
+ *       content: { application/json: { schema: { type: object, required: [password, confirm_password], properties: { password: { type: string, format: password, minLength: 8, maxLength: 256 }, confirm_password: { type: string, format: password, minLength: 8, maxLength: 256 } } } } }
+ *     responses: { '200': { description: Password reset }, '400': { description: Validation failed } }
+ */
 authRouter.route("/reset-password").post(asyncHandler(resetPassword));
 
+/** @swagger
+ * /api/auth/change-password:
+ *   post:
+ *     tags: [Auth]
+ *     summary: Change the authenticated user's password
+ *     security: [{ bearerAuth: [] }]
+ *     requestBody:
+ *       required: true
+ *       content: { application/json: { schema: { type: object, required: [old_password, password, confirm_password], properties: { old_password: { type: string, format: password }, password: { type: string, format: password, minLength: 8, maxLength: 256 }, confirm_password: { type: string, format: password, minLength: 8, maxLength: 256 } } } } }
+ *     responses: { '200': { description: Password changed }, '400': { description: Validation failed }, '401': { description: Not authenticated } }
+ */
 authRouter
   .route("/change-password")
   .post(verifyToken, asyncHandler(changePassword));
