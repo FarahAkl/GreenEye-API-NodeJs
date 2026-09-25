@@ -1,3 +1,5 @@
+/// <reference path="./types/express.d.ts" />
+
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -21,12 +23,12 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use(
-    expressRateLimit({
+  expressRateLimit({
     windowMs: 15 * 60 * 1000,
     max: 300,
     standardHeaders: true,
     legacyHeaders: false,
-}),
+  }),
 );
 
 app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
