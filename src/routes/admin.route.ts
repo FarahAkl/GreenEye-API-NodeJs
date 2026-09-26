@@ -6,6 +6,7 @@ import { userRoles } from "../utils/constants.js";
 import {
   approveUser,
   changeRole,
+  getProducts,
   getUsers,
   rejectUser,
 } from "../controllers/admin.controller.js";
@@ -48,6 +49,21 @@ const adminRouter = express.Router();
  *     parameters: [{ name: userId, in: path, required: true, schema: { type: string } }]
  *     requestBody: { required: true, content: { application/json: { schema: { type: object, required: [role], properties: { role: { type: string } } } } } }
  *     responses: { '200': { description: User's role changed successfully }, '409': { description: User already has this role } }
+ * /api/admin/products:
+ *   get:
+ *     tags: [Admin]
+ *     summary: List the products (Admin only)
+ *     security: [{ bearerAuth: [] }]
+ *     parameters:
+ *       - { name: page, in: query, schema: { type: integer, minimum: 1 } }
+ *       - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+ *       - { name: status, in: query, schema: { type: string, enum: [pending, approved, rejected] } }
+ *       - { name: category, in: query, schema: { type: string } }
+ *       - { name: search, in: query, schema: { type: string } }
+ *       - { name: minPrice, in: query, schema: { type: number, minimum: 0 } }
+ *       - { name: maxPrice, in: query, schema: { type: number, minimum: 0 } }
+ *       - { name: sortPrice, in: query, schema: { type: string, enum: [asc, desc] } }
+ *     responses: { '200': { description: Products retrieved successfully }, '400': { description: Invalid query parameters } }
  */
 
 adminRouter
@@ -95,7 +111,7 @@ adminRouter
   .patch(verifyToken, authorizeRoles(userRoles.ADMIN));
 adminRouter
   .route("/products")
-  .get(verifyToken, authorizeRoles(userRoles.ADMIN));
+  .get(verifyToken, authorizeRoles(userRoles.ADMIN), asyncHandler(getProducts));
 
 adminRouter
   .route("/products/:productId/approve")

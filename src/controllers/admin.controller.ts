@@ -1,6 +1,10 @@
 import type { Request, Response } from "express";
 import { AppError } from "../utils/appError.js";
-import { errorResponse, successResponse } from "../utils/helper.js";
+import {
+  buildProductFilter,
+  errorResponse,
+  successResponse,
+} from "../utils/helper.js";
 import { getPagination, paginate } from "../utils/pagination.js";
 import { userModel } from "../models/user.model.js";
 import {
@@ -9,6 +13,8 @@ import {
   usersQuerySchema,
 } from "../schemas/admin.schema.js";
 import { rejectUserService } from "../services/admin/rejectUserService.js";
+import { productFilterSchema } from "../schemas/product.schema.js";
+import { product } from "../models/product.model.js";
 
 export const getUsers = async (req: Request, res: Response) => {
   const validatedQuery = usersQuerySchema.safeParse(req.query);
@@ -146,4 +152,49 @@ export const changeRole = async (req: Request, res: Response) => {
   return res
     .status(200)
     .json(successResponse("User's role changed successfully"));
+};
+
+export const getProducts = async (req: Request, res: Response) => {
+  const user = req.user;
+  if (!user) throw new AppError("Not authenticated", 401);
+
+  const validatedQuery = productFilterSchema.safeParse(req.query);
+
+  if (!validatedQuery.success) {
+    return res.status(400).json(
+      errorResponse(
+        "Invalid query parameters",
+        validatedQuery.error.issues.map((issue) => ({
+          field: issue.path[0],
+          message: issue.message,
+        })),
+      ),
+    );
+  }
+
+  const { page = 1, limit = 10, ...filters } = validatedQuery.data;
+  const pagination = getPagination({
+    page,
+    limit,
+  });
+  const { filter, sort } = buildProductFilter(filters);
+  const products = await paginate(
+    product,
+    { ...filter },
+    {
+      ...pagination,
+      select: "-__v",
+      ...(sort !== undefined ? { sort } : {}),
+    },
+  );
+
+  return res
+    .status(200)
+    .json(
+      successResponse(
+        "Products retrieved successfully",
+        products.data,
+        products.pagination,
+      ),
+    );
 };
