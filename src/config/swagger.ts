@@ -1,5 +1,11 @@
 import swaggerJSDoc from "swagger-jsdoc";
+import { fileURLToPath } from "node:url";
 import path from "node:path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const routesPath = path.resolve(__dirname, "../routes/*.ts");
 
 const options: swaggerJSDoc.Options = {
   definition: {
@@ -10,15 +16,17 @@ const options: swaggerJSDoc.Options = {
       version: "1.0.0",
       description: "API documentation for GreenEye",
     },
+
     components: {
       securitySchemes: {
         bearerAuth: {
-          type: "https",
+          type: "http",
           scheme: "bearer",
           bearerFormat: "JWT",
         },
       },
     },
+
     servers: [
       {
         url: "/",
@@ -47,7 +55,8 @@ const options: swaggerJSDoc.Options = {
       },
     ],
   },
-  apis: [path.join(process.cwd(), "src/routes/*.ts")],
+
+  apis: [routesPath],
 };
 
 export const swaggerSpec = swaggerJSDoc(options);
