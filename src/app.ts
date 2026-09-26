@@ -5,7 +5,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import expressRateLimit from "express-rate-limit";
 // import swaggerUi from "swagger-ui-express";
-import { swaggerSpec } from "./config/swagger.js";
+import { swaggerSpec } from "./config/swagger.generated.js";
 import { errorResponse } from "./utils/helper.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 

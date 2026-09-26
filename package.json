@@ -15,10 +15,10 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
+    "swagger:generate": "tsx src/scripts/generate-swagger.ts",
+    "predev": "npm run swagger:generate",
     "dev": "nodemon --exec tsx src/index.ts",
-    "build": "tsc",
-    "prod": "node src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npm run swagger:generate && tsc"
   },
   "dependencies": {
     "axios": "^1.20.0",
