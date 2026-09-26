@@ -17,6 +17,39 @@ import { upload } from "../config/multer.js";
 
 const aiRouter = express.Router();
 
+aiRouter
+  .route("/classification")
+  .post(verifyToken, asyncHandler(classification));
+
+aiRouter.route("/forecast").post(verifyToken, asyncHandler(forecast));
+
+aiRouter
+  .route("/crop-growth-simulation")
+  .post(verifyToken, asyncHandler(simulation));
+
+aiRouter
+  .route("/plant-disease")
+  .post(verifyToken, upload.single("file"), asyncHandler(plantDisease));
+aiRouter
+  .route("/plant-disease/history")
+  .get(verifyToken, asyncHandler(plantDiseaseHistory));
+
+aiRouter
+  .route("/plant-disease/history/:id")
+  .get(verifyToken, asyncHandler(getPlantDiseaseHistoryById))
+  .delete(verifyToken, asyncHandler(deletePlantDiseaseHistoryById));
+
+aiRouter
+  .route("/crop-recommendation")
+  .post(verifyToken, asyncHandler(recommendation));
+
+aiRouter
+  .route("/crop-recommendation/history")
+  .get(verifyToken, asyncHandler(recommendationHistory));
+aiRouter
+  .route("/crop-recommendation/history/:id")
+  .delete(verifyToken, asyncHandler(recommendationHistoryDeleteById));
+
 /**
  * @swagger
  * /api/ai/classification:
@@ -26,15 +59,6 @@ const aiRouter = express.Router();
  *     security: [{ bearerAuth: [] }]
  *     requestBody: { required: true, content: { application/json: { schema: { type: object, required: [longitude, latitude], properties: { longitude: { type: number, example: 31.04 }, latitude: { type: number, example: 30.99 } } } } } }
  *     responses: { '200': { description: Classification returned }, '400': { description: Validation failed }, '401': { description: Not authenticated } }
- */
-
-aiRouter
-  .route("/classification")
-  .post(verifyToken, asyncHandler(classification));
-
-aiRouter.route("/forecast").post(verifyToken, asyncHandler(forecast));
-
-/** @swagger
  * /api/ai/forecast:
  *   post:
  *     tags: [AI]
@@ -42,10 +66,6 @@ aiRouter.route("/forecast").post(verifyToken, asyncHandler(forecast));
  *     security: [{ bearerAuth: [] }]
  *     requestBody: { required: true, content: { application/json: { schema: { type: object, required: [longitude, latitude], properties: { longitude: { type: number }, latitude: { type: number } } } } } }
  *     responses: { '200': { description: Forecast returned }, '400': { description: Validation failed } }
- */
-
-/**
- * @swagger
  * /api/ai/crop-growth-simulation:
  *   post:
  *     tags: [AI]
@@ -67,12 +87,6 @@ aiRouter.route("/forecast").post(verifyToken, asyncHandler(forecast));
  *       '200': { description: Simulation result returned }
  *       '400': { description: Validation failed }
  *       '401': { description: Not authenticated }
- */
-aiRouter
-  .route("/crop-growth-simulation")
-  .post(verifyToken, asyncHandler(simulation));
-
-/** @swagger
  * /api/ai/plant-disease:
  *   post:
  *     tags: [AI]
@@ -80,16 +94,6 @@ aiRouter
  *     security: [{ bearerAuth: [] }]
  *     requestBody: { required: true, content: { multipart/form-data: { schema: { type: object, required: [file], properties: { file: { type: string, format: binary } } } } } }
  *     responses: { '200': { description: Disease analysis returned }, '400': { description: Plant image is required } }
- */
-
-aiRouter
-  .route("/plant-disease")
-  .post(verifyToken, upload.single("file"), asyncHandler(plantDisease));
-aiRouter
-  .route("/plant-disease/history")
-  .get(verifyToken, asyncHandler(plantDiseaseHistory));
-
-/** @swagger
  * /api/ai/plant-disease/history:
  *   get:
  *     tags: [AI]
@@ -109,17 +113,6 @@ aiRouter
  *     security: [{ bearerAuth: [] }]
  *     parameters: [{ name: id, in: path, required: true, schema: { type: string } }]
  *     responses: { '200': { description: History item deleted } }
- */
-aiRouter
-  .route("/plant-disease/history/:id")
-  .get(verifyToken, asyncHandler(getPlantDiseaseHistoryById))
-  .delete(verifyToken, asyncHandler(deletePlantDiseaseHistoryById));
-
-aiRouter
-  .route("/crop-recommendation")
-  .post(verifyToken, asyncHandler(recommendation));
-
-/** @swagger
  * /api/ai/crop-recommendation:
  *   post:
  *     tags: [AI]
@@ -141,11 +134,5 @@ aiRouter
  *     parameters: [{ name: id, in: path, required: true, schema: { type: string } }]
  *     responses: { '200': { description: History item deleted } }
  */
-aiRouter
-  .route("/crop-recommendation/history")
-  .get(verifyToken, asyncHandler(recommendationHistory));
-aiRouter
-  .route("/crop-recommendation/history/:id")
-  .delete(verifyToken, asyncHandler(recommendationHistoryDeleteById));
 
 export { aiRouter };

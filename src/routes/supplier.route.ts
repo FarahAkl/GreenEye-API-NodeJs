@@ -12,6 +12,36 @@ import { upload } from "../config/multer.js";
 
 const supplierRouter = express.Router();
 
+supplierRouter
+  .route("/products")
+  .get(
+    verifyToken,
+    authorizeRoles(userRoles.SUPPLIER),
+    asyncHandler(getSupplierProducts),
+  )
+  .post(
+    verifyToken,
+    authorizeRoles(userRoles.SUPPLIER),
+    upload.array("images"),
+    asyncHandler(createProduct),
+  );
+supplierRouter
+  .route("/products/:productId")
+  .delete(
+    verifyToken,
+    authorizeRoles(userRoles.SUPPLIER),
+    asyncHandler(deleteProductById),
+  );
+supplierRouter
+  .route("/product-updates/:productId")
+  .post(verifyToken, authorizeRoles(userRoles.SUPPLIER));
+supplierRouter
+  .route("/products-in-orders")
+  .get(verifyToken, authorizeRoles(userRoles.SUPPLIER));
+supplierRouter
+  .route("/profits")
+  .get(verifyToken, authorizeRoles(userRoles.SUPPLIER));
+
 /**
  * @swagger
  * /api/supplier/products:
@@ -43,35 +73,5 @@ const supplierRouter = express.Router();
  *     parameters: [{ name: productId, in: path, required: true, schema: { type: string } }]
  *     responses: { '200': { description: Product deleted successfully }, '404': { description: Product not found } }
  */
-
-supplierRouter
-  .route("/products")
-  .get(
-    verifyToken,
-    authorizeRoles(userRoles.SUPPLIER),
-    asyncHandler(getSupplierProducts),
-  )
-  .post(
-    verifyToken,
-    authorizeRoles(userRoles.SUPPLIER),
-    upload.array("images"),
-    asyncHandler(createProduct),
-  );
-supplierRouter
-  .route("/products/:productId")
-  .delete(
-    verifyToken,
-    authorizeRoles(userRoles.SUPPLIER),
-    asyncHandler(deleteProductById),
-  );
-supplierRouter
-  .route("/product-updates/:productId")
-  .post(verifyToken, authorizeRoles(userRoles.SUPPLIER));
-supplierRouter
-  .route("/products-in-orders")
-  .get(verifyToken, authorizeRoles(userRoles.SUPPLIER));
-supplierRouter
-  .route("/profits")
-  .get(verifyToken, authorizeRoles(userRoles.SUPPLIER));
 
 export { supplierRouter };

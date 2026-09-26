@@ -13,59 +13,6 @@ import {
 
 const adminRouter = express.Router();
 
-/**
- * @swagger
- * /api/admin/users:
- *   get:
- *     tags: [Admin]
- *     summary: List users (Admin only)
- *     security: [{ bearerAuth: [] }]
- *     parameters:
- *       - { name: page, in: query, schema: { type: integer, minimum: 1 } }
- *       - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
- *       - { name: role, in: query, schema: { type: string } }
- *       - { name: status, in: query, schema: { type: string, enum: [pending, approved, rejected] } }
- *     responses: { '200': { description: Users retrieved successfully }, '400': { description: Invalid query parameters }, '403': { description: Admin role required } }
- * /api/admin/users/{userId}/approve:
- *   patch:
- *     tags: [Admin]
- *     summary: Approve a pending user (Admin only)
- *     security: [{ bearerAuth: [] }]
- *     parameters: [{ name: userId, in: path, required: true, schema: { type: string } }]
- *     responses: { '200': { description: User approved successfully }, '404': { description: User not found }, '409': { description: User is not pending } }
- * /api/admin/users/{userId}/reject:
- *   patch:
- *     tags: [Admin]
- *     summary: Reject a pending user (Admin only)
- *     security: [{ bearerAuth: [] }]
- *     parameters: [{ name: userId, in: path, required: true, schema: { type: string } }]
- *     requestBody: { required: true, content: { application/json: { schema: { type: object, required: [rejectReason], properties: { rejectReason: { type: string, minLength: 1 } } } } } }
- *     responses: { '200': { description: User rejected successfully }, '400': { description: Validation failed }, '409': { description: User is not pending } }
- * /api/admin/users/{userId}/change-role:
- *   patch:
- *     tags: [Admin]
- *     summary: Change a user's role (Admin only)
- *     security: [{ bearerAuth: [] }]
- *     parameters: [{ name: userId, in: path, required: true, schema: { type: string } }]
- *     requestBody: { required: true, content: { application/json: { schema: { type: object, required: [role], properties: { role: { type: string } } } } } }
- *     responses: { '200': { description: User's role changed successfully }, '409': { description: User already has this role } }
- * /api/admin/products:
- *   get:
- *     tags: [Admin]
- *     summary: List the products (Admin only)
- *     security: [{ bearerAuth: [] }]
- *     parameters:
- *       - { name: page, in: query, schema: { type: integer, minimum: 1 } }
- *       - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
- *       - { name: status, in: query, schema: { type: string, enum: [pending, approved, rejected] } }
- *       - { name: category, in: query, schema: { type: string } }
- *       - { name: search, in: query, schema: { type: string } }
- *       - { name: minPrice, in: query, schema: { type: number, minimum: 0 } }
- *       - { name: maxPrice, in: query, schema: { type: number, minimum: 0 } }
- *       - { name: sortPrice, in: query, schema: { type: string, enum: [asc, desc] } }
- *     responses: { '200': { description: Products retrieved successfully }, '400': { description: Invalid query parameters } }
- */
-
 adminRouter
   .route("/users")
   .get(verifyToken, authorizeRoles(userRoles.ADMIN), asyncHandler(getUsers));
@@ -139,5 +86,58 @@ adminRouter
 adminRouter
   .route("/product-updates/:productId/reject")
   .patch(verifyToken, authorizeRoles(userRoles.ADMIN));
+
+/**
+ * @swagger
+ * /api/admin/users:
+ *   get:
+ *     tags: [Admin]
+ *     summary: List users (Admin only)
+ *     security: [{ bearerAuth: [] }]
+ *     parameters:
+ *       - { name: page, in: query, schema: { type: integer, minimum: 1 } }
+ *       - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+ *       - { name: role, in: query, schema: { type: string } }
+ *       - { name: status, in: query, schema: { type: string, enum: [pending, approved, rejected] } }
+ *     responses: { '200': { description: Users retrieved successfully }, '400': { description: Invalid query parameters }, '403': { description: Admin role required } }
+ * /api/admin/users/{userId}/approve:
+ *   patch:
+ *     tags: [Admin]
+ *     summary: Approve a pending user (Admin only)
+ *     security: [{ bearerAuth: [] }]
+ *     parameters: [{ name: userId, in: path, required: true, schema: { type: string } }]
+ *     responses: { '200': { description: User approved successfully }, '404': { description: User not found }, '409': { description: User is not pending } }
+ * /api/admin/users/{userId}/reject:
+ *   patch:
+ *     tags: [Admin]
+ *     summary: Reject a pending user (Admin only)
+ *     security: [{ bearerAuth: [] }]
+ *     parameters: [{ name: userId, in: path, required: true, schema: { type: string } }]
+ *     requestBody: { required: true, content: { application/json: { schema: { type: object, required: [rejectReason], properties: { rejectReason: { type: string, minLength: 1 } } } } } }
+ *     responses: { '200': { description: User rejected successfully }, '400': { description: Validation failed }, '409': { description: User is not pending } }
+ * /api/admin/users/{userId}/change-role:
+ *   patch:
+ *     tags: [Admin]
+ *     summary: Change a user's role (Admin only)
+ *     security: [{ bearerAuth: [] }]
+ *     parameters: [{ name: userId, in: path, required: true, schema: { type: string } }]
+ *     requestBody: { required: true, content: { application/json: { schema: { type: object, required: [role], properties: { role: { type: string } } } } } }
+ *     responses: { '200': { description: User's role changed successfully }, '409': { description: User already has this role } }
+ * /api/admin/products:
+ *   get:
+ *     tags: [Admin]
+ *     summary: List the products (Admin only)
+ *     security: [{ bearerAuth: [] }]
+ *     parameters:
+ *       - { name: page, in: query, schema: { type: integer, minimum: 1 } }
+ *       - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+ *       - { name: status, in: query, schema: { type: string, enum: [pending, approved, rejected] } }
+ *       - { name: category, in: query, schema: { type: string } }
+ *       - { name: search, in: query, schema: { type: string } }
+ *       - { name: minPrice, in: query, schema: { type: number, minimum: 0 } }
+ *       - { name: maxPrice, in: query, schema: { type: number, minimum: 0 } }
+ *       - { name: sortPrice, in: query, schema: { type: string, enum: [asc, desc] } }
+ *     responses: { '200': { description: Products retrieved successfully }, '400': { description: Invalid query parameters } }
+ */
 
 export { adminRouter };

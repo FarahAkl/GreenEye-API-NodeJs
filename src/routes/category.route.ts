@@ -14,6 +14,31 @@ import { userRoles } from "../utils/constants.js";
 
 const categoryRouter = express.Router();
 
+categoryRouter
+  .route("/")
+  .get(asyncHandler(getCategories))
+  .post(
+    verifyToken,
+    authorizeRoles(userRoles.ADMIN),
+    upload.single("categoryImage"),
+    asyncHandler(createCategory),
+  );
+
+categoryRouter
+  .route("/:categoryId")
+  .get(asyncHandler(getCategoryById))
+  .delete(
+    verifyToken,
+    authorizeRoles(userRoles.ADMIN),
+    asyncHandler(deleteCategoryById),
+  )
+  .patch(
+    verifyToken,
+    authorizeRoles(userRoles.ADMIN),
+    upload.single("categoryImage"),
+    asyncHandler(updateCategory),
+  );
+
 /**
  * @swagger
  * /api/marketplace/category:
@@ -47,30 +72,5 @@ const categoryRouter = express.Router();
  *     requestBody: { content: { multipart/form-data: { schema: { type: object, properties: { categoryName: { type: string }, description: { type: string }, categoryImage: { type: string, format: binary } } } } } }
  *     responses: { '200': { description: Category updated successfully }, '404': { description: Category not found } }
  */
-
-categoryRouter
-  .route("/")
-  .get(asyncHandler(getCategories))
-  .post(
-    verifyToken,
-    authorizeRoles(userRoles.ADMIN),
-    upload.single("categoryImage"),
-    asyncHandler(createCategory),
-  );
-
-categoryRouter
-  .route("/:categoryId")
-  .get(asyncHandler(getCategoryById))
-  .delete(
-    verifyToken,
-    authorizeRoles(userRoles.ADMIN),
-    asyncHandler(deleteCategoryById),
-  )
-  .patch(
-    verifyToken,
-    authorizeRoles(userRoles.ADMIN),
-    upload.single("categoryImage"),
-    asyncHandler(updateCategory),
-  );
 
 export { categoryRouter };
