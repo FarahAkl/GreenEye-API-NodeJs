@@ -12,6 +12,8 @@ export const rejectUserService = async ({
   email: string;
   rejectReason: string;
 }) => {
+  await userModel.findByIdAndUpdate(userId, { status: "rejected" });
+
   await transporter.sendMail({
     from: `"GreenEye Team" <${process.env.GOOGLE_USER_EMAIL}>`, // sender address
     to: email, // list of recipients
@@ -27,9 +29,6 @@ export const rejectUserService = async ({
     Unfortunately, your registration request has been rejected.
   </p>
 
-  ${
-    rejectReason
-      ? `
         <p>
           <strong>Reason for rejection:</strong>
         </p>
@@ -43,9 +42,7 @@ export const rejectUserService = async ({
         ">
           ${rejectReason}
         </div>
-      `
-      : ""
-  }
+
 
   <p>
     If you believe this was a mistake or you need further information,
@@ -59,8 +56,6 @@ export const rejectUserService = async ({
 </div>
       `, // HTML body
   });
-
-  await userModel.findByIdAndUpdate(userId, { status: "rejected" });
 
   return { message: "User rejected successfully" };
 };

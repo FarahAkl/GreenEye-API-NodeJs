@@ -13,6 +13,7 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 | Method | Endpoint | Description |
 |---|---|---|
 | `GET` | `/api/admin/users` | Get all users |
+| `GET` | `/api/admin/users/:userId` | Get user by ID|
 | `PATCH` | `/api/admin/users/:userId/approve` | Approve a pending user |
 | `PATCH` | `/api/admin/users/:userId/reject` | Reject a pending user |
 | `PATCH` | `/api/admin/users/:userId/change-role` | Change a user's role |
@@ -23,6 +24,7 @@ Backend API reimplementation of the GreenEye agricultural platform using Node.js
 | `PATCH` | `/api/admin/withdrawal-requests/:withdrawalId/approve` | Approve a withdrawal request |
 | `PATCH` | `/api/admin/withdrawal-requests/:withdrawalId/reject` | Reject a withdrawal request |
 | `GET` | `/api/admin/products` | Get all products |
+| `GET` | `/api/admin/products/:productId` | Get Product by ID |
 | `PATCH` | `/api/admin/products/:productId/approve` | Approve a product |
 | `PUT` | `/api/admin/products/:productId/reject` | Reject a product |
 | `GET` | `/api/admin/products-count` | Get products count |
