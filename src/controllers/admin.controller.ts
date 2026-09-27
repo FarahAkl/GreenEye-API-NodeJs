@@ -169,9 +169,6 @@ export const changeRole = async (req: Request, res: Response) => {
 };
 
 export const getProducts = async (req: Request, res: Response) => {
-  const user = req.user;
-  if (!user) throw new AppError("Not authenticated", 401);
-
   const validatedQuery = productFilterSchema.safeParse(req.query);
 
   if (!validatedQuery.success) {

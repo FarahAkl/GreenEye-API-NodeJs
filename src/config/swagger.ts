@@ -29,11 +29,12 @@ export const swaggerOptions: swaggerJSDoc.Options = {
 
     tags: [
       { name: "Auth" },
+      { name: "AI" },
       { name: "Admin" },
       { name: "Supplier" },
       { name: "Profile" },
-      { name: "AI" },
       { name: "Category" },
+      { name: "Product" },
     ],
   },
 

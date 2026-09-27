@@ -15,6 +15,7 @@ import { profileRouter } from "./routes/profile.route.js";
 import { categoryRouter } from "./routes/category.route.js";
 import { supplierRouter } from "./routes/supplier.route.js";
 import { adminRouter } from "./routes/admin.route.js";
+import { productRouter } from "./routes/product.route.js";
 
 const app = express();
 
@@ -70,6 +71,7 @@ app.use("/api/ai", aiRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/admin", adminRouter);
 app.use("/api/profile", profileRouter);
+app.use("/api/products", productRouter);
 app.use("/api/supplier", supplierRouter);
 app.use("/api/marketplace/category", categoryRouter);
 
