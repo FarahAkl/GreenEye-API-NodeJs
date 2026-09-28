@@ -7,10 +7,14 @@ import {
 import { product } from "../models/product.model.js";
 import { AppError } from "../utils/appError.js";
 import { getPagination, paginate } from "../utils/pagination.js";
-import { createProductReqSchema } from "../schemas/supplier.schema.js";
+import {
+  createProductReqSchema,
+  updateProductReqSchema,
+} from "../schemas/supplier.schema.js";
 import { uploadToCloudinary } from "../utils/cloudinaryUpload.js";
 import { category } from "../models/category.model.js";
 import { productFilterSchema } from "../schemas/product.schema.js";
+import { productUpdates } from "../models/productsUpdate.model.js";
 
 export const getSupplierProducts = async (req: Request, res: Response) => {
   const user = req.user;
@@ -134,4 +138,101 @@ export const deleteProductById = async (req: Request, res: Response) => {
   await product.findByIdAndDelete(id);
 
   return res.status(200).json(successResponse("Product deleted successfully"));
+};
+
+export const updateProduct = async (req: Request, res: Response) => {
+  const user = req.user;
+  if (!user) throw new AppError("Not Authenticated", 401);
+  const supplierId = user.id;
+
+  const cleanedBody = Object.fromEntries(
+    Object.entries(req.body).filter(([, value]) => value !== ""),
+  );
+
+  const validatedReq = updateProductReqSchema.safeParse(cleanedBody);
+
+  if (!validatedReq.success) {
+    return res.status(400).json(
+      errorResponse(
+        "Validation failed",
+        validatedReq.error.issues.map((issue) => ({
+          field: issue.path[0],
+          message: issue.message,
+        })),
+      ),
+    );
+  }
+
+  const validatedData = validatedReq.data;
+  const productId = req.params.productId as string;
+  if (!productId) throw new AppError("Product id is required", 400);
+
+  const productExisted = await product.findById(productId);
+  if (!productExisted) throw new AppError("Product not found", 404);
+
+  if (productExisted.supplierId !== supplierId) {
+    throw new AppError("You are not allowed to update this product", 403);
+  }
+
+  const existingUpdate = await productUpdates.findOne({ productId });
+
+  if (existingUpdate) {
+    throw new AppError(
+      "There is already a pending update request for this product",
+      409,
+    );
+  }
+
+  const images = req.files as Express.Multer.File[];
+  let imageUrls: string[] | undefined;
+  if (images?.length) {
+    imageUrls = await Promise.all(
+      images.map(async (image) => {
+        const result = await uploadToCloudinary(
+          image.buffer,
+          "greeneye/products",
+        );
+
+        return result.secure_url;
+      }),
+    );
+  }
+
+  if (validatedData.categoryId) {
+    const categoryExist = await category.findById(validatedData.categoryId);
+    if (!categoryExist) throw new AppError("Category not exists", 400);
+  }
+
+  const updatePayload = {
+    productId,
+    supplierId,
+    ...(validatedData.productName !== undefined
+      ? { productName: validatedData.productName }
+      : {}),
+    ...(validatedData.description !== undefined
+      ? { description: validatedData.description }
+      : {}),
+    ...(validatedData.price !== undefined
+      ? { price: validatedData.price }
+      : {}),
+    ...(validatedData.categoryId !== undefined
+      ? { categoryId: validatedData.categoryId }
+      : {}),
+    ...(validatedData.quantity !== undefined
+      ? { quantity: validatedData.quantity }
+      : {}),
+    ...(validatedData.productionDate !== undefined
+      ? { productionDate: validatedData.productionDate }
+      : {}),
+    ...(validatedData.expiryDate !== undefined
+      ? { expiryDate: validatedData.expiryDate }
+      : {}),
+    ...(imageUrls?.length ? { images: imageUrls } : {}),
+  };
+
+  await productUpdates.create(updatePayload);
+
+  return res
+    .status(201)
+    .json(successResponse("Product update request sent successfully"));
 };

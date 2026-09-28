@@ -18,4 +18,32 @@ export const createProductReqSchema = z
     path: ["expiryDate"],
   });
 
+export const updateProductReqSchema = z.object({
+  productName: z.string().nullable().optional(),
+
+  description: z.string().nullable().optional(),
+
+  price: z.coerce
+    .number({
+      error: "Price must be a valid number",
+    })
+    .min(0, "Price cannot be negative")
+    .nullable()
+    .optional(),
+
+  categoryId: z.string().nullable().optional(),
+
+  quantity: z.coerce
+    .number({
+      error: "Quantity must be a valid number",
+    })
+    .int("Quantity must be an integer")
+    .min(0, "Quantity cannot be negative")
+    .nullable()
+    .optional(),
+
+  productionDate: z.coerce.date().nullable().optional(),
+  expiryDate: z.coerce.date().nullable().optional(),
+});
 export type createProductReqT = z.infer<typeof createProductReqSchema>;
+export type updateProductReqT = z.infer<typeof updateProductReqSchema>;

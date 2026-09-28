@@ -7,6 +7,7 @@ import {
   createProduct,
   deleteProductById,
   getSupplierProducts,
+  updateProduct,
 } from "../controllers/supplier.controller.js";
 import { upload } from "../config/multer.js";
 
@@ -34,7 +35,12 @@ supplierRouter
   );
 supplierRouter
   .route("/product-updates/:productId")
-  .post(verifyToken, authorizeRoles(userRoles.SUPPLIER));
+  .post(
+    verifyToken,
+    authorizeRoles(userRoles.SUPPLIER),
+    upload.array("images"),
+    asyncHandler(updateProduct),
+  );
 supplierRouter
   .route("/products-in-orders")
   .get(verifyToken, authorizeRoles(userRoles.SUPPLIER));
@@ -72,6 +78,69 @@ supplierRouter
  *     security: [{ bearerAuth: [] }]
  *     parameters: [{ name: productId, in: path, required: true, schema: { type: string } }]
  *     responses: { '200': { description: Product deleted successfully }, '404': { description: Product not found } }
+ * /api/supplier/product-updates/{productId}:
+ *   post:
+ *     summary: Request product update
+ *     tags:
+ *       - Supplier
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: productId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID of the product to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               productName:
+ *                 type: string
+ *                 example: Organic Rice
+ *               description:
+ *                 type: string
+ *                 example: High-quality organic rice
+ *               price:
+ *                 type: number
+ *                 example: 250
+ *               categoryId:
+ *                 type: string
+ *                 example: 65f123456789abcdef123456
+ *               quantity:
+ *                 type: integer
+ *                 example: 100
+ *               productionDate:
+ *                 type: string
+ *                 format: date
+ *                 example: 2026-09-01
+ *               expiryDate:
+ *                 type: string
+ *                 format: date
+ *                 example: 2027-09-01
+ *               images:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *                   format: binary
+ *                 description: Product images
+ *     responses:
+ *       201:
+ *         description: Product update request sent successfully
+ *       400:
+ *         description: Validation failed or invalid category/product ID
+ *       401:
+ *         description: Not authenticated
+ *       403:
+ *         description: Supplier is not allowed to update this product
+ *       404:
+ *         description: Product not found
+ *       409:
+ *         description: There is already a pending update request
  */
 
 export { supplierRouter };
