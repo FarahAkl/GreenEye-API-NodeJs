@@ -10,6 +10,11 @@ export const loginService = async (data: loginT) => {
   const user = await User.findOne({ email });
   if (!user) throw new AppError("Invalid email or password", 401);
 
+  if (user.status === "pending")
+    throw new AppError("Your account is pending approval", 403);
+  if (user.status === "rejected")
+    throw new AppError("Your account has been rejected", 403);
+
   const validPass = await bcrypt.compare(password, user.password);
   if (!validPass) throw new AppError("Invalid email or password", 401);
 

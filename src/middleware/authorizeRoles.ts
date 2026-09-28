@@ -9,8 +9,6 @@ export const authorizeRoles = (...roles: UserRoleT[]) => {
     }
 
     const validRole = roles.includes(req.user.role);
-    if (!validRole) throw new AppError("Forbbiden", 403);
-
-    next();
+    if (!validRole) return next(new AppError("Forbidden", 403));
   };
 };

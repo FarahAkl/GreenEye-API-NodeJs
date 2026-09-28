@@ -42,7 +42,6 @@ export const createCategory = async (req: Request, res: Response) => {
     "greeneye/categories",
   );
   const imageUrl = result.secure_url;
-  console.log(req.user);
 
   await category.create({
     ...validatedData,

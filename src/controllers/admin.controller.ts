@@ -217,16 +217,12 @@ export const getProductById = async (req: Request, res: Response) => {
   const productData = await product.findById(productId).select("-__v").lean();
 
   if (!productData) throw new AppError("Product not found", 404);
-  const categoryData = await category
-    .findById(productData.categoryId)
-    .select("-__v")
-    .lean();
-  if (!categoryData) throw new AppError("Category not found", 404);
+  const [categoryData, supplier] = await Promise.all([
+    category.findById(productData.categoryId).select("-__v").lean(),
+    userModel.findById(productData.supplierId).select("-__v -password").lean(),
+  ]);
 
-  const supplier = await userModel
-    .findById(productData.supplierId)
-    .select("-__v -password")
-    .lean();
+  if (!categoryData) throw new AppError("Category not found", 404);
   if (!supplier) throw new AppError("Supplier not found", 404);
 
   const { categoryId, supplierId, ...productInfo } = productData;

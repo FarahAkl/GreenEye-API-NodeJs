@@ -1,5 +1,4 @@
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import type { changePasswordT } from "../../schemas/auth.schema.js";
 import { userModel as User } from "../../models/user.model.js";
 import { AppError } from "../../utils/appError.js";

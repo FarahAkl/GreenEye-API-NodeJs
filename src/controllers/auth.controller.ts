@@ -47,7 +47,7 @@ const register = async (req: Request, res: Response) => {
   }
 
   const result = await registerService({ ...validatedData, avatar: avatarUrl });
-  return res.status(200).json(successResponse(result.message, result.data));
+  return res.status(201).json(successResponse(result.message, result.data));
 };
 
 const verifyOtp = async (req: Request, res: Response) => {
@@ -120,7 +120,7 @@ const refreshToken = async (req: Request, res: Response) => {
     throw new AppError("Refresh token is required", 401);
   }
 
-  const result = refreshTokenService(refreshToken);
+  const result = await refreshTokenService(refreshToken);
 
   res.cookie("accessToken", result.accessToken, {
     httpOnly: true,

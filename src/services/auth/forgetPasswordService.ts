@@ -9,7 +9,9 @@ import type { forgetPasswordT } from "../../schemas/auth.schema.js";
 export const forgetPasswordService = async (data: forgetPasswordT) => {
   const user = await User.findOne({ email: data.email });
 
-  if (!user) throw new AppError("User not found", 404);
+  if (!user) return {
+    message: "If an account exists with this email, you will receive an OTP.",
+  };
 
   const otp = crypto.randomInt(100000, 1000000);
   const hashedOtp = await bcrypt.hash(otp.toString(), 10);

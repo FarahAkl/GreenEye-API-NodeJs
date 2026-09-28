@@ -171,7 +171,7 @@ export const updateProduct = async (req: Request, res: Response) => {
   if (!productExisted) throw new AppError("Product not found", 404);
 
   if (productExisted.supplierId !== supplierId) {
-    throw new AppError("You are not allowed to update this product", 403);
+    throw new AppError("Product not found or not authorized", 404);
   }
 
   const existingUpdate = await productUpdates.findOne({ productId });
